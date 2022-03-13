@@ -19,5 +19,3 @@ class BlueButton extends StatelessWidget {
       child:  Text(title,style: const TextStyle(color: Colors.white,fontWeight: FontWeight.w700,letterSpacing: 1),),);
   }
 }
-
-

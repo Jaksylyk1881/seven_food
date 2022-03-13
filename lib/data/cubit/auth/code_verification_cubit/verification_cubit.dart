@@ -8,12 +8,8 @@ class VerificationCubit extends Cubit<VerificationState>{
     try{
       emit(VerificationLoading());
       log("loading");
-      final data = await LoginService().loginByCodeConfirmation(code);
-      if(data==200){
+      await LoginService().loginByCodeConfirmation(code);
         emit(VerificationLogged());
-      }else{
-        emit(VerificationError("$data"));
-      }
     }catch(e){
       emit(VerificationError("$e"));
     }

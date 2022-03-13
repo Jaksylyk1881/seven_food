@@ -27,6 +27,15 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  pusher_client: ^2.0.0
+  qr_code_scanner: ^0.7.0
+  webview_flutter: ^3.0.1
+  url_launcher: ^6.0.9
+  google_maps_flutter: ^2.1.2
+  freezed_annotation: ^1.1.0
+  mask_text_input_formatter: ^2.1.0
+  local_auth: ^1.1.11
+  loader_overlay: ^2.0.5
   shared_preferences: ^2.0.12
   flutter_bloc: ^8.0.1
   http: ^0.13.4
@@ -44,6 +53,9 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  build_runner: ^2.1.7
+  freezed: ^1.1.1
+  json_serializable: ^6.1.4
   flutter_test:
     sdk: flutter
 
@@ -68,6 +80,21 @@ flutter:
   assets:
     - images/
   fonts:
+    - family: customIcon5
+      fonts:
+        - asset: fonts/DocumentFont.ttf
+    - family: customIcon4
+      fonts:
+          - asset: fonts/Union.ttf
+    - family: customIcon3
+      fonts:
+          - asset: fonts/SocialMediaIcons.ttf
+    - family: customIcon2
+      fonts:
+        - asset: fonts/QrAndBasket.ttf
+    - family: customIcon
+      fonts:
+        - asset: fonts/BottomNavIcons.ttf
     - family: Manrope
       fonts:
         - asset: fonts/Manrope.ttf

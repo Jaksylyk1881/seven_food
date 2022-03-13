@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.seven_food">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
    <application
         android:label="seven_food"
         android:name="${applicationName}"
@@ -31,5 +32,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyB1O7chq15oXHfI1D7eZzPUZmNTRxs4EDM"/>
     </application>
 </manifest>

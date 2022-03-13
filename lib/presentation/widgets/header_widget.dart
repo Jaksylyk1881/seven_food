@@ -7,7 +7,7 @@ class HeaderWidget extends StatelessWidget {
   const HeaderWidget({
     Key? key,
     required this.title,
-    required this.subtitle
+    required this.subtitle,
   }) : super(key: key);
 
   @override
@@ -23,8 +23,8 @@ class HeaderWidget extends StatelessWidget {
                 style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    fontFamily: 'ManropeBold'),
-              )),
+                    fontFamily: 'ManropeBold',),
+              ),),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 20),
@@ -36,8 +36,8 @@ class HeaderWidget extends StatelessWidget {
                     fontSize: 20,
                     fontWeight: FontWeight.w400,
                     fontFamily: 'Manrope',
-                    color: grey),
-              )),
+                    color: grey,),
+              ),),
         ),
       ],
     );

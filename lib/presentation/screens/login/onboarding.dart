@@ -22,7 +22,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   void initState() {
     super.initState();
     slides = SliderModel.getSlides();
-    _pageController = PageController(initialPage:0 );
+    _pageController = PageController( );
     _pageController.addListener(() {
       if (_pageController.page!.round().toInt() != currentIndex) {
         setState(() {
@@ -44,7 +44,6 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 
       PageView.builder(
           physics: const BouncingScrollPhysics(),
-          scrollDirection: Axis.horizontal,
           itemCount: slides.length,
           onPageChanged: (value) {
             setState(() {
@@ -55,7 +54,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
             return PageMaket(
                 title: slides[index].title,
                 image: slides[index].image,);
-          }),
+          },),
      Positioned(
        bottom: 50,
        child: BlueButton(callback: (){
@@ -63,9 +62,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
            log("da");
          }
          _pageController.nextPage(duration: const Duration(milliseconds: 100), curve: Curves.bounceIn);
-       }, title: (currentIndex == slides.length-1)?"Войти":"Далее"),
+       }, title: (currentIndex == slides.length-1)?"Войти":"Далее",),
      )
-    ]);
+    ],);
   }
 }
 

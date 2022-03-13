@@ -8,12 +8,8 @@ class LoginCubit extends Cubit<LoginState>{
   Future<void> loginByPhoneNumberAndPassword(String phoneNumber,String password) async{
     emit(LoginLoading());
     try {
-     final data = await LoginService().loginByNumAndPassword(phoneNumber, password);
-     if(data == 200){
+     await LoginService().loginByNumAndPassword(phoneNumber, password);
        emit(LoginLogged());
-     }else{
-       emit(LoginError('$data'));
-     }
   }catch(e){
       emit(LoginError('$e'));
     }

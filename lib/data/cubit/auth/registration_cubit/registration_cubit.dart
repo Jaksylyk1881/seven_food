@@ -13,12 +13,8 @@ class RegCubit extends Cubit<RegState>{
   Future<void> registering(String name, String phoneNumber, String password, String passwordConfirmation) async{
     emit(RegLoading());
     try{
-      final data = await LoginService().registration(name, phoneNumber, password, passwordConfirmation);
-      if(data==200){
+      await LoginService().registration(name, phoneNumber, password, passwordConfirmation);
         emit(RegSuccess());
-      }else{
-        emit(RegError('$data'));
-      }
     }catch(e){
       emit(RegError("$e"));
     }

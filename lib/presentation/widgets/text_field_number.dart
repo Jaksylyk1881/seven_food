@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter/services.dart';
+
 import 'package:seven_food/utils/constants.dart';
+
 class TextFieldNumber extends StatelessWidget {
   final void Function(String)? callBack;
-  final MaskedTextController controller;
-  const TextFieldNumber({Key? key,required this.controller,this.callBack}) : super(key: key);
+  final TextEditingController controller;
+  final List<TextInputFormatter>? inputFormatters;
+
+  const TextFieldNumber(
+      {Key? key,required this.controller,this.callBack,this.inputFormatters,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
-
     return TextField(
-      style:
-      const TextStyle(fontFamily: "ManropeBold", fontSize: 18),
+      style: const TextStyle(fontFamily: "ManropeBold", fontSize: 18),
       textAlignVertical: TextAlignVertical.center,
       decoration: kTextFieldDecoration.copyWith(
         hintText: "Номер телефона",
@@ -21,15 +22,50 @@ class TextFieldNumber extends StatelessWidget {
           padding: EdgeInsets.only(top: 14, left: 10),
           child: Text(
             "+7",
-            style:
-            TextStyle(fontSize: 18, fontFamily: "ManropeBold"),
+            style: TextStyle(fontSize: 18, fontFamily: "ManropeBold"),
             textAlign: TextAlign.center,
           ),
         ),
       ),
+      // inputFormatters: [
+      //   MaskTextInputFormatter(
+      //       mask: '(###) ###-##-##', filter: {"#": RegExp(r'[0-9]')})
+      // ],
+      inputFormatters: inputFormatters,
       keyboardType: TextInputType.number,
       controller: controller,
       onChanged: callBack,
     );
   }
+
+}
+
+TextField getTextFieldNumber({
+  required TextEditingController controller,
+  required Function(String)? callBack,
+  List<TextInputFormatter>? inputFormatters,
+}) {
+  return TextField(
+    style: const TextStyle(fontFamily: "ManropeBold", fontSize: 18),
+    textAlignVertical: TextAlignVertical.center,
+    decoration: kTextFieldDecoration.copyWith(
+      hintText: "Номер телефона",
+      prefixIcon: const Padding(
+        padding: EdgeInsets.only(top: 14, left: 10),
+        child: Text(
+          "+7",
+          style: TextStyle(fontSize: 18, fontFamily: "ManropeBold"),
+          textAlign: TextAlign.center,
+        ),
+      ),
+    ),
+// inputFormatters: [
+//   MaskTextInputFormatter(
+//       mask: '(###) ###-##-##', filter: {"#": RegExp(r'[0-9]')})
+// ],
+    inputFormatters: inputFormatters,
+    keyboardType: TextInputType.number,
+    controller: controller,
+    onChanged: callBack,
+  );
 }

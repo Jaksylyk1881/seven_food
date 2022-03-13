@@ -26,9 +26,9 @@ class NumPad extends StatelessWidget {
       margin: const EdgeInsets.only(left: 30, right: 30),
       child: Column(
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 0),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             // implement the number keys (from 0 to 9) with the NumberButton widget
             // the NumberButton widget is defined in the bottom of this file
             children: [
@@ -52,9 +52,9 @@ class NumPad extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 0),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               NumberButton(
                 number: 4,
@@ -76,9 +76,9 @@ class NumPad extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 0),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               NumberButton(
                 number: 7,
@@ -100,9 +100,9 @@ class NumPad extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 0),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // this button is used to delete the last number
               SizedBox(width: buttonSize,),
@@ -153,7 +153,7 @@ class NumberButton extends StatelessWidget {
     return SizedBox(
       width: size,
       height: size,
-      child: TextButton(
+      child: MaterialButton(
         onPressed: () {
           if(controller.text.length<=3) {
             controller.text += number.toString();
@@ -165,7 +165,7 @@ class NumberButton extends StatelessWidget {
           child: Text(
             number.toString(),
             style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.black87, fontSize: 30),
+                fontWeight: FontWeight.bold, color: Colors.black87, fontSize: 30,),
           ),
         ),
       ),

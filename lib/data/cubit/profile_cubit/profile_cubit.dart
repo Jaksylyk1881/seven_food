@@ -18,7 +18,7 @@ class ProfileCubit extends Cubit<ProfileState>{
       emit(ProfileStateLoaded(_list));
     }on ErrorException catch(e){
       log("$e");
-      emit(ProfileStateError("${e.message}"));
+      emit(ProfileStateError(e.message));
     }
   }
 

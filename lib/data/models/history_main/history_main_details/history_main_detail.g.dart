@@ -10,6 +10,7 @@ _$_HistoryMainDetail _$$_HistoryMainDetailFromJson(Map<String, dynamic> json) =>
     _$_HistoryMainDetail(
       name: json['name'] as String?,
       quantity: json['quantity'] as int?,
+      price: json['price'] as String?,
     );
 
 Map<String, dynamic> _$$_HistoryMainDetailToJson(
@@ -17,4 +18,5 @@ Map<String, dynamic> _$$_HistoryMainDetailToJson(
     <String, dynamic>{
       'name': instance.name,
       'quantity': instance.quantity,
+      'price': instance.price,
     };

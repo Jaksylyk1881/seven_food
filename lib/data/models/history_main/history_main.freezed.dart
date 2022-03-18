@@ -24,14 +24,22 @@ class _$HistoryMainTearOff {
 
   _HistoryMain call(
       {required int id,
-      String? address,
-      String? price,
+      @JsonKey(name: 'showcase_id') required int showcaseId,
+      @JsonKey(name: 'showcase_address') String? showcaseAddress,
+      String? amount,
+      @JsonKey(name: 'total_amount') String? totalAmount,
+      @JsonKey(name: 'used_bonus') String? usedBonus,
+      @JsonKey(name: 'received_bonus') String? receivedBonus,
       @JsonKey(name: 'created_at') String? createdAt,
       List<HistoryMainDetail>? details}) {
     return _HistoryMain(
       id: id,
-      address: address,
-      price: price,
+      showcaseId: showcaseId,
+      showcaseAddress: showcaseAddress,
+      amount: amount,
+      totalAmount: totalAmount,
+      usedBonus: usedBonus,
+      receivedBonus: receivedBonus,
       createdAt: createdAt,
       details: details,
     );
@@ -48,8 +56,17 @@ const $HistoryMain = _$HistoryMainTearOff();
 /// @nodoc
 mixin _$HistoryMain {
   int get id => throw _privateConstructorUsedError;
-  String? get address => throw _privateConstructorUsedError;
-  String? get price => throw _privateConstructorUsedError;
+  @JsonKey(name: 'showcase_id')
+  int get showcaseId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'showcase_address')
+  String? get showcaseAddress => throw _privateConstructorUsedError;
+  String? get amount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_amount')
+  String? get totalAmount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'used_bonus')
+  String? get usedBonus => throw _privateConstructorUsedError;
+  @JsonKey(name: 'received_bonus')
+  String? get receivedBonus => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   String? get createdAt => throw _privateConstructorUsedError;
   List<HistoryMainDetail>? get details => throw _privateConstructorUsedError;
@@ -67,8 +84,12 @@ abstract class $HistoryMainCopyWith<$Res> {
       _$HistoryMainCopyWithImpl<$Res>;
   $Res call(
       {int id,
-      String? address,
-      String? price,
+      @JsonKey(name: 'showcase_id') int showcaseId,
+      @JsonKey(name: 'showcase_address') String? showcaseAddress,
+      String? amount,
+      @JsonKey(name: 'total_amount') String? totalAmount,
+      @JsonKey(name: 'used_bonus') String? usedBonus,
+      @JsonKey(name: 'received_bonus') String? receivedBonus,
       @JsonKey(name: 'created_at') String? createdAt,
       List<HistoryMainDetail>? details});
 }
@@ -84,8 +105,12 @@ class _$HistoryMainCopyWithImpl<$Res> implements $HistoryMainCopyWith<$Res> {
   @override
   $Res call({
     Object? id = freezed,
-    Object? address = freezed,
-    Object? price = freezed,
+    Object? showcaseId = freezed,
+    Object? showcaseAddress = freezed,
+    Object? amount = freezed,
+    Object? totalAmount = freezed,
+    Object? usedBonus = freezed,
+    Object? receivedBonus = freezed,
     Object? createdAt = freezed,
     Object? details = freezed,
   }) {
@@ -94,13 +119,29 @@ class _$HistoryMainCopyWithImpl<$Res> implements $HistoryMainCopyWith<$Res> {
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      address: address == freezed
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
+      showcaseId: showcaseId == freezed
+          ? _value.showcaseId
+          : showcaseId // ignore: cast_nullable_to_non_nullable
+              as int,
+      showcaseAddress: showcaseAddress == freezed
+          ? _value.showcaseAddress
+          : showcaseAddress // ignore: cast_nullable_to_non_nullable
               as String?,
-      price: price == freezed
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
+      amount: amount == freezed
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalAmount: totalAmount == freezed
+          ? _value.totalAmount
+          : totalAmount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      usedBonus: usedBonus == freezed
+          ? _value.usedBonus
+          : usedBonus // ignore: cast_nullable_to_non_nullable
+              as String?,
+      receivedBonus: receivedBonus == freezed
+          ? _value.receivedBonus
+          : receivedBonus // ignore: cast_nullable_to_non_nullable
               as String?,
       createdAt: createdAt == freezed
           ? _value.createdAt
@@ -123,8 +164,12 @@ abstract class _$HistoryMainCopyWith<$Res>
   @override
   $Res call(
       {int id,
-      String? address,
-      String? price,
+      @JsonKey(name: 'showcase_id') int showcaseId,
+      @JsonKey(name: 'showcase_address') String? showcaseAddress,
+      String? amount,
+      @JsonKey(name: 'total_amount') String? totalAmount,
+      @JsonKey(name: 'used_bonus') String? usedBonus,
+      @JsonKey(name: 'received_bonus') String? receivedBonus,
       @JsonKey(name: 'created_at') String? createdAt,
       List<HistoryMainDetail>? details});
 }
@@ -142,8 +187,12 @@ class __$HistoryMainCopyWithImpl<$Res> extends _$HistoryMainCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = freezed,
-    Object? address = freezed,
-    Object? price = freezed,
+    Object? showcaseId = freezed,
+    Object? showcaseAddress = freezed,
+    Object? amount = freezed,
+    Object? totalAmount = freezed,
+    Object? usedBonus = freezed,
+    Object? receivedBonus = freezed,
     Object? createdAt = freezed,
     Object? details = freezed,
   }) {
@@ -152,13 +201,29 @@ class __$HistoryMainCopyWithImpl<$Res> extends _$HistoryMainCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int,
-      address: address == freezed
-          ? _value.address
-          : address // ignore: cast_nullable_to_non_nullable
+      showcaseId: showcaseId == freezed
+          ? _value.showcaseId
+          : showcaseId // ignore: cast_nullable_to_non_nullable
+              as int,
+      showcaseAddress: showcaseAddress == freezed
+          ? _value.showcaseAddress
+          : showcaseAddress // ignore: cast_nullable_to_non_nullable
               as String?,
-      price: price == freezed
-          ? _value.price
-          : price // ignore: cast_nullable_to_non_nullable
+      amount: amount == freezed
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalAmount: totalAmount == freezed
+          ? _value.totalAmount
+          : totalAmount // ignore: cast_nullable_to_non_nullable
+              as String?,
+      usedBonus: usedBonus == freezed
+          ? _value.usedBonus
+          : usedBonus // ignore: cast_nullable_to_non_nullable
+              as String?,
+      receivedBonus: receivedBonus == freezed
+          ? _value.receivedBonus
+          : receivedBonus // ignore: cast_nullable_to_non_nullable
               as String?,
       createdAt: createdAt == freezed
           ? _value.createdAt
@@ -177,8 +242,12 @@ class __$HistoryMainCopyWithImpl<$Res> extends _$HistoryMainCopyWithImpl<$Res>
 class _$_HistoryMain implements _HistoryMain {
   _$_HistoryMain(
       {required this.id,
-      this.address,
-      this.price,
+      @JsonKey(name: 'showcase_id') required this.showcaseId,
+      @JsonKey(name: 'showcase_address') this.showcaseAddress,
+      this.amount,
+      @JsonKey(name: 'total_amount') this.totalAmount,
+      @JsonKey(name: 'used_bonus') this.usedBonus,
+      @JsonKey(name: 'received_bonus') this.receivedBonus,
       @JsonKey(name: 'created_at') this.createdAt,
       this.details});
 
@@ -188,9 +257,22 @@ class _$_HistoryMain implements _HistoryMain {
   @override
   final int id;
   @override
-  final String? address;
+  @JsonKey(name: 'showcase_id')
+  final int showcaseId;
   @override
-  final String? price;
+  @JsonKey(name: 'showcase_address')
+  final String? showcaseAddress;
+  @override
+  final String? amount;
+  @override
+  @JsonKey(name: 'total_amount')
+  final String? totalAmount;
+  @override
+  @JsonKey(name: 'used_bonus')
+  final String? usedBonus;
+  @override
+  @JsonKey(name: 'received_bonus')
+  final String? receivedBonus;
   @override
   @JsonKey(name: 'created_at')
   final String? createdAt;
@@ -199,7 +281,7 @@ class _$_HistoryMain implements _HistoryMain {
 
   @override
   String toString() {
-    return 'HistoryMain(id: $id, address: $address, price: $price, createdAt: $createdAt, details: $details)';
+    return 'HistoryMain(id: $id, showcaseId: $showcaseId, showcaseAddress: $showcaseAddress, amount: $amount, totalAmount: $totalAmount, usedBonus: $usedBonus, receivedBonus: $receivedBonus, createdAt: $createdAt, details: $details)';
   }
 
   @override
@@ -208,8 +290,16 @@ class _$_HistoryMain implements _HistoryMain {
         (other.runtimeType == runtimeType &&
             other is _HistoryMain &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.address, address) &&
-            const DeepCollectionEquality().equals(other.price, price) &&
+            const DeepCollectionEquality()
+                .equals(other.showcaseId, showcaseId) &&
+            const DeepCollectionEquality()
+                .equals(other.showcaseAddress, showcaseAddress) &&
+            const DeepCollectionEquality().equals(other.amount, amount) &&
+            const DeepCollectionEquality()
+                .equals(other.totalAmount, totalAmount) &&
+            const DeepCollectionEquality().equals(other.usedBonus, usedBonus) &&
+            const DeepCollectionEquality()
+                .equals(other.receivedBonus, receivedBonus) &&
             const DeepCollectionEquality().equals(other.createdAt, createdAt) &&
             const DeepCollectionEquality().equals(other.details, details));
   }
@@ -218,8 +308,12 @@ class _$_HistoryMain implements _HistoryMain {
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(address),
-      const DeepCollectionEquality().hash(price),
+      const DeepCollectionEquality().hash(showcaseId),
+      const DeepCollectionEquality().hash(showcaseAddress),
+      const DeepCollectionEquality().hash(amount),
+      const DeepCollectionEquality().hash(totalAmount),
+      const DeepCollectionEquality().hash(usedBonus),
+      const DeepCollectionEquality().hash(receivedBonus),
       const DeepCollectionEquality().hash(createdAt),
       const DeepCollectionEquality().hash(details));
 
@@ -237,8 +331,12 @@ class _$_HistoryMain implements _HistoryMain {
 abstract class _HistoryMain implements HistoryMain {
   factory _HistoryMain(
       {required int id,
-      String? address,
-      String? price,
+      @JsonKey(name: 'showcase_id') required int showcaseId,
+      @JsonKey(name: 'showcase_address') String? showcaseAddress,
+      String? amount,
+      @JsonKey(name: 'total_amount') String? totalAmount,
+      @JsonKey(name: 'used_bonus') String? usedBonus,
+      @JsonKey(name: 'received_bonus') String? receivedBonus,
       @JsonKey(name: 'created_at') String? createdAt,
       List<HistoryMainDetail>? details}) = _$_HistoryMain;
 
@@ -248,9 +346,22 @@ abstract class _HistoryMain implements HistoryMain {
   @override
   int get id;
   @override
-  String? get address;
+  @JsonKey(name: 'showcase_id')
+  int get showcaseId;
   @override
-  String? get price;
+  @JsonKey(name: 'showcase_address')
+  String? get showcaseAddress;
+  @override
+  String? get amount;
+  @override
+  @JsonKey(name: 'total_amount')
+  String? get totalAmount;
+  @override
+  @JsonKey(name: 'used_bonus')
+  String? get usedBonus;
+  @override
+  @JsonKey(name: 'received_bonus')
+  String? get receivedBonus;
   @override
   @JsonKey(name: 'created_at')
   String? get createdAt;

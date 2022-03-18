@@ -12,7 +12,6 @@ import 'package:seven_food/presentation/widgets/blue_button.dart';
 import 'package:seven_food/presentation/widgets/header_widget.dart';
 import 'package:seven_food/presentation/widgets/text_field_number.dart';
 import 'package:seven_food/presentation/widgets/text_field_password.dart';
-import 'package:seven_food/utils/colors.dart';
 import 'package:seven_food/utils/utils.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -163,7 +162,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: BlueButton(
-                        color: blueForButton,
                         callback: (isButtonActive && isButtonActive2)
                             ? () {
                                 log("+7 ${controller.text}");

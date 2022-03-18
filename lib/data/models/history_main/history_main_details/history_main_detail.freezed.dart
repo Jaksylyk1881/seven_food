@@ -22,10 +22,11 @@ HistoryMainDetail _$HistoryMainDetailFromJson(Map<String, dynamic> json) {
 class _$HistoryMainDetailTearOff {
   const _$HistoryMainDetailTearOff();
 
-  _HistoryMainDetail call({String? name, int? quantity}) {
+  _HistoryMainDetail call({String? name, int? quantity, String? price}) {
     return _HistoryMainDetail(
       name: name,
       quantity: quantity,
+      price: price,
     );
   }
 
@@ -41,6 +42,7 @@ const $HistoryMainDetail = _$HistoryMainDetailTearOff();
 mixin _$HistoryMainDetail {
   String? get name => throw _privateConstructorUsedError;
   int? get quantity => throw _privateConstructorUsedError;
+  String? get price => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,7 +55,7 @@ abstract class $HistoryMainDetailCopyWith<$Res> {
   factory $HistoryMainDetailCopyWith(
           HistoryMainDetail value, $Res Function(HistoryMainDetail) then) =
       _$HistoryMainDetailCopyWithImpl<$Res>;
-  $Res call({String? name, int? quantity});
+  $Res call({String? name, int? quantity, String? price});
 }
 
 /// @nodoc
@@ -69,6 +71,7 @@ class _$HistoryMainDetailCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? quantity = freezed,
+    Object? price = freezed,
   }) {
     return _then(_value.copyWith(
       name: name == freezed
@@ -79,6 +82,10 @@ class _$HistoryMainDetailCopyWithImpl<$Res>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as int?,
+      price: price == freezed
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -90,7 +97,7 @@ abstract class _$HistoryMainDetailCopyWith<$Res>
           _HistoryMainDetail value, $Res Function(_HistoryMainDetail) then) =
       __$HistoryMainDetailCopyWithImpl<$Res>;
   @override
-  $Res call({String? name, int? quantity});
+  $Res call({String? name, int? quantity, String? price});
 }
 
 /// @nodoc
@@ -108,6 +115,7 @@ class __$HistoryMainDetailCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? quantity = freezed,
+    Object? price = freezed,
   }) {
     return _then(_HistoryMainDetail(
       name: name == freezed
@@ -118,6 +126,10 @@ class __$HistoryMainDetailCopyWithImpl<$Res>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as int?,
+      price: price == freezed
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -125,7 +137,7 @@ class __$HistoryMainDetailCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_HistoryMainDetail implements _HistoryMainDetail {
-  _$_HistoryMainDetail({this.name, this.quantity});
+  _$_HistoryMainDetail({this.name, this.quantity, this.price});
 
   factory _$_HistoryMainDetail.fromJson(Map<String, dynamic> json) =>
       _$$_HistoryMainDetailFromJson(json);
@@ -134,10 +146,12 @@ class _$_HistoryMainDetail implements _HistoryMainDetail {
   final String? name;
   @override
   final int? quantity;
+  @override
+  final String? price;
 
   @override
   String toString() {
-    return 'HistoryMainDetail(name: $name, quantity: $quantity)';
+    return 'HistoryMainDetail(name: $name, quantity: $quantity, price: $price)';
   }
 
   @override
@@ -146,14 +160,16 @@ class _$_HistoryMainDetail implements _HistoryMainDetail {
         (other.runtimeType == runtimeType &&
             other is _HistoryMainDetail &&
             const DeepCollectionEquality().equals(other.name, name) &&
-            const DeepCollectionEquality().equals(other.quantity, quantity));
+            const DeepCollectionEquality().equals(other.quantity, quantity) &&
+            const DeepCollectionEquality().equals(other.price, price));
   }
 
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(name),
-      const DeepCollectionEquality().hash(quantity));
+      const DeepCollectionEquality().hash(quantity),
+      const DeepCollectionEquality().hash(price));
 
   @JsonKey(ignore: true)
   @override
@@ -167,7 +183,7 @@ class _$_HistoryMainDetail implements _HistoryMainDetail {
 }
 
 abstract class _HistoryMainDetail implements HistoryMainDetail {
-  factory _HistoryMainDetail({String? name, int? quantity}) =
+  factory _HistoryMainDetail({String? name, int? quantity, String? price}) =
       _$_HistoryMainDetail;
 
   factory _HistoryMainDetail.fromJson(Map<String, dynamic> json) =
@@ -177,6 +193,8 @@ abstract class _HistoryMainDetail implements HistoryMainDetail {
   String? get name;
   @override
   int? get quantity;
+  @override
+  String? get price;
   @override
   @JsonKey(ignore: true)
   _$HistoryMainDetailCopyWith<_HistoryMainDetail> get copyWith =>

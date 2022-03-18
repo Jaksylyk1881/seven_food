@@ -9,8 +9,12 @@ part 'history_main.g.dart';
 class HistoryMain with _$HistoryMain{
   factory HistoryMain({
     required int id,
-    String? address,
-    String? price,
+    @JsonKey(name: 'showcase_id') required int showcaseId,
+    @JsonKey(name: 'showcase_address') String? showcaseAddress,
+    String? amount,
+    @JsonKey(name: 'total_amount') String? totalAmount,
+    @JsonKey(name: 'used_bonus') String? usedBonus,
+    @JsonKey(name: 'received_bonus') String? receivedBonus,
     @JsonKey(name: 'created_at') String? createdAt,
     List<HistoryMainDetail>? details,
   }) = _HistoryMain;

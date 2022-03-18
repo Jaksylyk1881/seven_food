@@ -7,7 +7,9 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:seven_food/data/cubit/profile_cubit/add_card_cubit.dart';
 import 'package:seven_food/data/cubit/profile_cubit/profile_cubit.dart';
 import 'package:seven_food/data/models/card/card.dart';
+import 'package:seven_food/data/repository/login_services.dart';
 import 'package:seven_food/presentation/custom_icons/bottom_nav_icons.dart';
+import 'package:seven_food/presentation/screens/login/login_screen.dart';
 import 'package:seven_food/presentation/screens/main/bottom_nav_bar_pages/profile_item/card_add_page.dart';
 import 'package:seven_food/presentation/widgets/letter_b.dart';
 import 'package:seven_food/utils/colors.dart';
@@ -15,7 +17,6 @@ import 'package:seven_food/utils/constants.dart';
 import 'package:seven_food/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//TODO LOGOUT
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -116,7 +117,29 @@ class _ProfilePageState extends State<ProfilePage>
         actions: [
           IconButton(
             onPressed: () {
-
+              showCupertinoDialog(
+                barrierDismissible: true,
+                  context: context, builder: (context){
+                return CupertinoAlertDialog(
+                  content: const Text("Вы уверены что хотите выйти?"),
+                  actions: [
+                    CupertinoDialogAction(
+                        child: const Text("Выйти",style: TextStyle(fontWeight: FontWeight.bold),),
+                        onPressed: ()
+                        {
+                          LoginService().logOut();
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
+                        },
+                    ),
+                    CupertinoDialogAction(
+                        child: const Text("Отмена"),
+                        onPressed: (){
+                          Navigator.of(context).pop();
+                        },
+                    )
+                  ],
+                );
+              },);
             },
             icon: const Icon(Icons.login),
             color: Colors.black,
@@ -531,4 +554,3 @@ class _ProfilePageState extends State<ProfilePage>
     );
   }
 }
-

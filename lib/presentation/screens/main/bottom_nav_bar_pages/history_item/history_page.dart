@@ -105,7 +105,7 @@ class _HistoryPageState extends State<HistoryPage> {
                           child: Text(
                             '${history.createdAt?.substring(0, 10)}',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 15,
                               fontWeight: FontWeight.w400,
                               color: lightGrey,
                             ),
@@ -149,7 +149,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                     ),
                                   ),
                                   Text(
-                                    '${history.price}',
+                                    '${history.totalAmount}',
                                     style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
@@ -165,7 +165,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "${history.address}",
+                                      "${history.showcaseAddress}",
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
@@ -173,7 +173,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                       ),
                                     ),
                                     Text(
-                                      "",
+                                      "-${history.usedBonus}",
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,
@@ -198,7 +198,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          "${historyDetail.name}",
+                                          "${historyDetail.name}  -${historyDetail.quantity}",
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400,
@@ -206,7 +206,7 @@ class _HistoryPageState extends State<HistoryPage> {
                                           ),
                                         ),
                                         Text(
-                                          "${historyDetail.quantity}",
+                                          "${historyDetail.price}",
                                           style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400,

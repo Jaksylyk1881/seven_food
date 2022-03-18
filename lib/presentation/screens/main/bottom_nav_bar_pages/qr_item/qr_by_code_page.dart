@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -6,6 +8,7 @@ import 'package:seven_food/data/cubit/qr_cubit/qr_cubit.dart';
 import 'package:seven_food/presentation/screens/main/fridge_pages/fridge_page.dart';
 import 'package:seven_food/utils/colors.dart';
 import 'package:seven_food/utils/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QrByCodePage extends StatefulWidget {
   const QrByCodePage({Key? key}) : super(key: key);
@@ -29,6 +32,24 @@ class _QrByCodePageState extends State<QrByCodePage> {
     ),
   );
   late int fridgeId;
+  late int id;
+
+  Future<void> getId() async {
+    final SharedPreferences sharedPreferences =
+    await SharedPreferences.getInstance();
+    setState(() {
+      id = sharedPreferences.getInt("id")!;
+      log("$id");
+    });
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    getId();
+  }
+
   @override
   Widget build(BuildContext context) {
     return LoaderOverlay(
@@ -62,7 +83,7 @@ class _QrByCodePageState extends State<QrByCodePage> {
                 context.loaderOverlay.hide();
               });
               WidgetsBinding.instance?.addPostFrameCallback((_) {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FridgePage(fridgeId: fridgeId,)));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FridgePage(fridgeId: fridgeId,id:id)));
               });
             }else if(state is QrStateError){
               setState(() {

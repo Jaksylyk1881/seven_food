@@ -9,6 +9,7 @@ import 'package:seven_food/data/cubit/qr_cubit/qr_cubit.dart';
 import 'package:seven_food/presentation/screens/main/bottom_nav_bar_pages/qr_item/qr_by_code_page.dart';
 import 'package:seven_food/presentation/screens/main/fridge_pages/fridge_page.dart';
 import 'package:seven_food/utils/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class QrCameraPage extends StatefulWidget {
   static String id = "/qr_camera_page";
@@ -25,6 +26,23 @@ class _QrCameraPageState extends State<QrCameraPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   bool validation = false;
   late int fridgeId;
+  late int id;
+
+  Future<void> getId() async {
+    final SharedPreferences sharedPreferences =
+    await SharedPreferences.getInstance();
+    setState(() {
+      id = sharedPreferences.getInt("id")!;
+      log("$id");
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getId();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +60,7 @@ class _QrCameraPageState extends State<QrCameraPage> {
             });
             WidgetsBinding.instance?.addPostFrameCallback((_) {
               controller?.dispose();
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FridgePage(fridgeId: fridgeId,)));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FridgePage(fridgeId: fridgeId,id: id,)));
             });
           }else if(state is QrStateError){
             setState(() {
@@ -132,7 +150,7 @@ class _QrCameraPageState extends State<QrCameraPage> {
                       },
                       icon: const Icon(Icons.arrow_back_ios_rounded),
                     ),
-                    title: const Text("Скан QR-кода"),
+                    title: const Text("Скан QR-кода",style: TextStyle(color: Colors.white),),
                     backgroundColor: Colors.transparent,
                     elevation: 0,
                   ),

@@ -8,6 +8,7 @@ class HistoryMainDetail with _$HistoryMainDetail{
   factory HistoryMainDetail({
     String? name,
     int? quantity,
+    String? price,
   }) = _HistoryMainDetail;
   factory HistoryMainDetail.fromJson(Map<String, dynamic> json) =>
       _$HistoryMainDetailFromJson(json);

@@ -11,12 +11,11 @@ import 'package:seven_food/presentation/widgets/blue_button.dart';
 import 'package:seven_food/presentation/widgets/letter_b.dart';
 import 'package:seven_food/utils/colors.dart';
 import 'package:seven_food/utils/constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class FridgePage extends StatefulWidget {
   final int fridgeId;
-
-  const FridgePage({Key? key, required this.fridgeId}) : super(key: key);
+  final int id;
+  const FridgePage({Key? key, required this.fridgeId,required this.id}) : super(key: key);
 
   @override
   _FridgePageState createState() => _FridgePageState();
@@ -25,48 +24,30 @@ class FridgePage extends StatefulWidget {
 class _FridgePageState extends State<FridgePage> {
   bool switchValue = false;
   late int fridgeID;
-  int id=23;
+  late int id;
 
-  Future<void> getId() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    id = sharedPreferences.getInt("id")!;
-  }
 
   @override
   void initState() {
     super.initState();
-    getId();
+    id = widget.id;
     fridgeID = widget.fridgeId;
     BlocProvider.of<FridgeCubit>(context).initPusher(id);
   }
 
 
   @override
-  void dispose() {
-    super.dispose();
-    usSubscribe();
-  }
-
-  void usSubscribe(){
-    BlocProvider.of<FridgeCubit>(context).channel.unbind('App\\Events\\FridgeProductChanged');
-    BlocProvider.of<FridgeCubit>(context).channel.unbind('App\\Events\\FridgeOpened');
-    BlocProvider.of<FridgeCubit>(context).channel.unbind('App\\Events\\FridgeClosed');
-    BlocProvider.of<FridgeCubit>(context).pusherClient.unsubscribe("user.$id");
-  }
-
-  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async{
-        usSubscribe();
+        BlocProvider.of<FridgeCubit>(context).unSubscribe(id);
         return true;
       },
       child: Scaffold(
         appBar: AppBar(
           leading: InkWell(
             onTap: () {
-              usSubscribe();
+              BlocProvider.of<FridgeCubit>(context).unSubscribe(id);
               Navigator.pop(context);
             },
             child: const Icon(
@@ -155,7 +136,7 @@ class _FridgePageState extends State<FridgePage> {
           padding: const EdgeInsets.all(16),
           child: BlueButton(
             callback: () {
-              usSubscribe();
+              BlocProvider.of<FridgeCubit>(context).unSubscribe(id);
               Navigator.pushNamed(context, MainBottomList.id);
             },
             title: "НА ГЛАВНУЮ",
@@ -217,6 +198,9 @@ class _FridgePageState extends State<FridgePage> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(12),
                                     color: contentBackground,
+                                  ),
+                                  child: Center(
+                                    child: Image.network(fridgeChanged.products![index].image!,height: 50,),
                                   ),
                                 ),
                                 const SizedBox(

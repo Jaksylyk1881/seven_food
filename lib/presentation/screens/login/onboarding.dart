@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:seven_food/data/models/slider_model.dart';
 import 'package:seven_food/presentation/widgets/blue_button.dart';
+import 'package:seven_food/utils/colors.dart';
 
 class OnBoardingPage extends StatefulWidget {
   static const String id = '/onboarding_screen';
@@ -57,7 +58,9 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
           },),
      Positioned(
        bottom: 50,
-       child: BlueButton(callback: (){
+       child: BlueButton(
+         color: blueForButton,
+         callback: (){
          if(currentIndex == slides.length - 1){
            log("da");
          }

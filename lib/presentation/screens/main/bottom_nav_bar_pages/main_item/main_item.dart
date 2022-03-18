@@ -1,12 +1,14 @@
 import 'dart:collection';
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:seven_food/data/cubit/show_cases_cubit/showcases_cubit.dart';
 import 'package:seven_food/data/models/showcases/showcases.dart';
 import 'package:seven_food/presentation/custom_icons/bottom_nav_icons.dart';
-import 'package:seven_food/presentation/screens/login/login_screen.dart';
 import 'package:seven_food/presentation/screens/main/bottom_nav_bar_pages/main_item/products_menu_page.dart';
 import 'package:seven_food/presentation/screens/main/bottom_nav_bar_pages/qr_item/qr_camera_page.dart';
 import 'package:seven_food/presentation/widgets/list_tile_showcase.dart';
@@ -61,11 +63,22 @@ class MainItem extends StatefulWidget {
 class _MainItemState extends State<MainItem>  with SingleTickerProviderStateMixin {
   bool isList = true;
   final Set<Marker> _markers = HashSet<Marker>();
-  late BitmapDescriptor descriptor;
+  late Uint8List markerIcon;
   late AnimationController animationController;
+
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    final ByteData data = await rootBundle.load(path);
+    final ui.Codec codec = await ui
+        .instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    final ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
+  }
+
   Future<void> _setMarkerIcon() async {
-    descriptor = await BitmapDescriptor.fromAssetImage(
-        const ImageConfiguration(size: Size(25, 25)), "images/marker1.png",);
+
+    markerIcon = await getBytesFromAsset("images/marker1.png", 150);
   }
 
   @override
@@ -254,7 +267,7 @@ class _MainItemState extends State<MainItem>  with SingleTickerProviderStateMixi
                             ),
                         );
                       },
-                      icon: descriptor,
+                      icon: BitmapDescriptor.fromBytes(markerIcon),
                       markerId: MarkerId("${sh.id}"),
                       position: LatLng(
                         double.parse(sh.latitude!),

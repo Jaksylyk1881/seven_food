@@ -4,6 +4,7 @@ import 'package:seven_food/presentation/widgets/blue_button.dart';
 import 'package:seven_food/presentation/widgets/header_widget.dart';
 import 'package:seven_food/presentation/widgets/indicator_pin_code.dart';
 import 'package:seven_food/presentation/widgets/num_pad.dart';
+import 'package:seven_food/utils/colors.dart';
 
 class PinCode extends StatefulWidget {
   static const String id = "/pin_code";
@@ -85,6 +86,7 @@ class _PinCodeState extends State<PinCode> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 25, vertical: 25,),
                     child: BlueButton(
+                      color: blueForButton,
                         callback: isActiveButton
                             ? () {
                                 WidgetsBinding.instance

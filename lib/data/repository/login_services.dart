@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
+import 'package:seven_food/data/exeption_error.dart';
 import 'package:seven_food/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,6 +29,7 @@ class LoginService {
         sharedPreferences.setString('phone', phoneNumber);
         sharedPreferences.setInt('id', data["id"] as int);
         sharedPreferences.setString('token', data["token"] as String);
+        getProfile(data["token"] as String);
         return response.statusCode;
       } else {
         throw Exception("${data["message"]}");
@@ -54,6 +56,7 @@ class LoginService {
       final data = jsonDecode(response.body);
       if (response.statusCode == 200) {
         log("Status Code::: 200");
+
         sharedPreferences.setString('phone', data["phone"] as String);
       } else {
         throw Exception(data["message"]);
@@ -87,6 +90,7 @@ class LoginService {
         sharedPreferences.setString('phone', phoneNumber);
         sharedPreferences.setInt('id', data["id"] as int);
         sharedPreferences.setString('token', data["token"] as String);
+        getProfile(data["token"] as String);
         return response.statusCode;
       } else {
         log("${data["message"]}");
@@ -156,6 +160,7 @@ class LoginService {
         sharedPreferences.setString('phone', phoneNumber);
         sharedPreferences.setInt('id', data["id"] as int);
         sharedPreferences.setString('token', data["token"] as String);
+        getProfile(data["token"] as String);
         return response.statusCode;
       } else {
         log("${data["message"]}");
@@ -172,6 +177,7 @@ class LoginService {
     sharedPreferences.setString("token", "");
     sharedPreferences.setInt("id", -1);
     sharedPreferences.setString("phone", "");
+    sharedPreferences.setString("bonus", "");
   }
 
 
@@ -189,6 +195,8 @@ class LoginService {
   }
 
   Future<bool> getProfile(String token) async {
+    bool a=false;
+    try{
     final response = await http.get(
       Uri.parse('https://api.7food.kz/v1/users/profile'),
       headers: {
@@ -198,16 +206,18 @@ class LoginService {
       },
     );
     final data = await jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      log("Status Code::: 200");
-      log('$data');
-      setNameAndBonus(
+      if (response.statusCode == 200) {
+        log("Status Code::: 200");
+        log('$data');
+        setNameAndBonus(
           data["data"]["name"] as String, data["data"]["bonus"] as String,);
-      return true;
-    } else {
-      log("${data["message"]}");
-      return false;
+        a=true;
+      }
+    }catch(e){
+      log("$e");
+      return a=false;
     }
+    return a;
   }
 
 

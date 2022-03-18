@@ -4,13 +4,14 @@ import 'package:seven_food/utils/colors.dart';
 class BlueButton extends StatelessWidget {
   final void Function()? callback;
   final String title;
-  const BlueButton({Key? key,required this.callback,required this.title}) : super(key: key);
-
+  final Color? color;
+  final Color? disabledColor;
+  const BlueButton({Key? key,required this.callback,required this.title,this.color=blueForButton,this.disabledColor = blueForButtonDisabled}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      disabledColor: blueForButtonDisabled ,
-      color: blueForButton,
+      disabledColor: disabledColor ,
+      color: color,
       elevation: 5,
       minWidth: MediaQuery.of(context).size.width,
       height: 56,

@@ -14,13 +14,13 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
-Cardd _$CardFromJson(Map<String, dynamic> json) {
+Cardd _$CarddFromJson(Map<String, dynamic> json) {
   return _Card.fromJson(json);
 }
 
 /// @nodoc
-class _$CardTearOff {
-  const _$CardTearOff();
+class _$CarddTearOff {
+  const _$CarddTearOff();
 
   _Card call(
       {int? id, @JsonKey(name: 'masked_pan') String? maskedPan, String? type}) {
@@ -37,10 +37,10 @@ class _$CardTearOff {
 }
 
 /// @nodoc
-const $Card = _$CardTearOff();
+const $Cardd = _$CarddTearOff();
 
 /// @nodoc
-mixin _$Card {
+mixin _$Cardd {
   int? get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'masked_pan')
   String? get maskedPan => throw _privateConstructorUsedError;
@@ -48,20 +48,20 @@ mixin _$Card {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $CardCopyWith<Cardd> get copyWith => throw _privateConstructorUsedError;
+  $CarddCopyWith<Cardd> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CardCopyWith<$Res> {
-  factory $CardCopyWith(Cardd value, $Res Function(Cardd) then) =
-      _$CardCopyWithImpl<$Res>;
+abstract class $CarddCopyWith<$Res> {
+  factory $CarddCopyWith(Cardd value, $Res Function(Cardd) then) =
+      _$CarddCopyWithImpl<$Res>;
   $Res call(
       {int? id, @JsonKey(name: 'masked_pan') String? maskedPan, String? type});
 }
 
 /// @nodoc
-class _$CardCopyWithImpl<$Res> implements $CardCopyWith<$Res> {
-  _$CardCopyWithImpl(this._value, this._then);
+class _$CarddCopyWithImpl<$Res> implements $CarddCopyWith<$Res> {
+  _$CarddCopyWithImpl(this._value, this._then);
 
   final Cardd _value;
   // ignore: unused_field
@@ -91,7 +91,7 @@ class _$CardCopyWithImpl<$Res> implements $CardCopyWith<$Res> {
 }
 
 /// @nodoc
-abstract class _$CardCopyWith<$Res> implements $CardCopyWith<$Res> {
+abstract class _$CardCopyWith<$Res> implements $CarddCopyWith<$Res> {
   factory _$CardCopyWith(_Card value, $Res Function(_Card) then) =
       __$CardCopyWithImpl<$Res>;
   @override
@@ -100,7 +100,7 @@ abstract class _$CardCopyWith<$Res> implements $CardCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$CardCopyWithImpl<$Res> extends _$CardCopyWithImpl<$Res>
+class __$CardCopyWithImpl<$Res> extends _$CarddCopyWithImpl<$Res>
     implements _$CardCopyWith<$Res> {
   __$CardCopyWithImpl(_Card _value, $Res Function(_Card) _then)
       : super(_value, (v) => _then(v as _Card));
@@ -148,7 +148,7 @@ class _$_Card implements _Card {
 
   @override
   String toString() {
-    return 'Card(id: $id, maskedPan: $maskedPan, type: $type)';
+    return 'Cardd(id: $id, maskedPan: $maskedPan, type: $type)';
   }
 
   @override

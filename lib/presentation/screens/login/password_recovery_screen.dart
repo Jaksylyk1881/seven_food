@@ -7,6 +7,7 @@ import 'package:seven_food/presentation/screens/login/password_confirmation_scre
 import 'package:seven_food/presentation/widgets/blue_button.dart';
 import 'package:seven_food/presentation/widgets/header_widget.dart';
 import 'package:seven_food/presentation/widgets/text_field_number.dart';
+import 'package:seven_food/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PasswordRecovery extends StatefulWidget {
@@ -130,6 +131,7 @@ class _PasswordRecoveryState extends State<PasswordRecovery> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: BlueButton(
+                        color: blueForButton,
                           callback: isButtonActive
                               ? () {
                                   BlocProvider.of<PasswordRecoveryCubit>(

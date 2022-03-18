@@ -27,6 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  pinput: ^2.1.4
   pusher_client: ^2.0.0
   qr_code_scanner: ^0.7.0
   webview_flutter: ^3.0.1

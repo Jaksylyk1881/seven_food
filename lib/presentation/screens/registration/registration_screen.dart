@@ -216,11 +216,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: BlueButton(
-                          callback: (isButtonActiveName &&
-                                  isButtonActiveNumber &&
-                                  isButtonActivePassword &&
-                                  isButtonActiveConfirm)
-                              ? () {
+                        callback:
+                        // (isButtonActiveName &&
+                        //           isButtonActiveNumber &&
+                        //           isButtonActivePassword &&
+                        //           isButtonActiveConfirm)
+                              //?
+                        () {
                                   BlocProvider.of<RegCubit>(context)
                                       .registering(_name!, "+7 $_phoneNumber",
                                           _password!, _password!,);
@@ -228,8 +230,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   controller.clear();
                                   controllerPassword.clear();
                                   controllerPasswordConfirm.clear();
-                                }
-                              : null,
+                                },
+                             // : null,
                           title: "ЗАРЕГИСТРИТОВАТЬСЯ",),
                     ),
                     const SizedBox(height: 25)

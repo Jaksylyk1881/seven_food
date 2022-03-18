@@ -2,16 +2,16 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
+import 'package:seven_food/data/exeption_error.dart';
 import 'package:seven_food/data/models/card/card.dart';
 import 'package:seven_food/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-//TODO Add new card
-//TODO Delete card
-class CardServices{
 
-  Future<String> addCard() async{
+//TODO Delete card
+class CardServices {
+  Future<String> addCard() async {
     final SharedPreferences sharedPreferences =
-    await SharedPreferences.getInstance();
+        await SharedPreferences.getInstance();
     final String? token = sharedPreferences.getString("token");
     final response = await http.post(
       Uri.parse('$baseUrl/users/cards/add'),
@@ -22,16 +22,18 @@ class CardServices{
       },
     );
     final data = await jsonDecode(response.body);
-    try{
-      return data["redirect_url"] as String;
-    }catch(e){
-      log("$e");
-      throw Exception(data['message']);
+    log("Status Code::: ${response.statusCode}");
+    if (response.statusCode == 200) {
+      String url = data["redirect_url"] as String;
+      return url;
+    } else {
+      throw ErrorException(message: data['message'] as String);
     }
   }
+
   Future<List<Cardd>> getCards() async {
     final SharedPreferences sharedPreferences =
-    await SharedPreferences.getInstance();
+        await SharedPreferences.getInstance();
     final String? token = sharedPreferences.getString("token");
     final response = await http.get(
       Uri.parse('$baseUrl/users/cards'),
@@ -42,15 +44,15 @@ class CardServices{
       },
     );
     final data = await jsonDecode(response.body);
-    try{
+    try {
       log("Status Code::: ${response.statusCode}");
       log('$data');
       return (data as List)
           .map((card) => Cardd.fromJson(card as Map<String, dynamic>))
           .toList();
-    }catch(e){
+    } catch (e) {
       log("$e");
-      throw Exception(data['message']);
+      throw ErrorException(message: "${data["message"]}");
     }
   }
 }

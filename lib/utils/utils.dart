@@ -11,7 +11,7 @@ Future<String?> buildShowError(BuildContext context, String message) {
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            if(message=="Exception: Неаутентифицированный."){
+            if(message=="Неаутентифицированный."){
               Navigator.pushReplacementNamed(context, LoginScreen.id);
             }else{
               Navigator.pop(context);

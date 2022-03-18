@@ -4,10 +4,12 @@ import 'package:seven_food/data/cubit/auth/code_verification_cubit/verification_
 import 'package:seven_food/data/cubit/auth/login_cubit/login_state.dart';
 import 'package:seven_food/data/cubit/auth/password_recovery_cubit/password_recovery_state.dart';
 import 'package:seven_food/data/cubit/auth/registration_cubit/registration_cubit.dart';
+import 'package:seven_food/data/cubit/fridge_cubit/fridge_cubit.dart';
 import 'package:seven_food/data/cubit/history_cubit/history_cubit.dart';
 import 'package:seven_food/data/cubit/products_cubit/products_cubit.dart';
 import 'package:seven_food/data/cubit/profile_cubit/add_card_cubit.dart';
 import 'package:seven_food/data/cubit/profile_cubit/profile_cubit.dart';
+import 'package:seven_food/data/cubit/qr_cubit/qr_cubit.dart';
 import 'package:seven_food/data/cubit/show_cases_cubit/showcases_cubit.dart';
 import 'package:seven_food/presentation/screens/login/login_screen.dart';
 import 'package:seven_food/presentation/screens/login/onboarding.dart';
@@ -43,12 +45,24 @@ class MyApp extends StatelessWidget {
         BlocProvider<HistoryCubit>(create: (context) => HistoryCubit()),
         BlocProvider<ProfileCubit>(create: (context) => ProfileCubit()),
         BlocProvider<AddCardCubit>(create: (context) => AddCardCubit()),
+        BlocProvider<QrCubit>(create: (context) => QrCubit()),
+        BlocProvider<FridgeCubit>(create: (context) => FridgeCubit()),
       ],
       child: MaterialApp(
         navigatorKey: navigatorKey,
         title: 'Flutter Demo',
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.white,
+          appBarTheme: const AppBarTheme(
+            elevation: 0,
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            titleTextStyle: TextStyle(
+              fontFamily: "ManropeBold",
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
           // This is the theme of your application.
           //
           // Try running your application with "flutter run". You'll see the

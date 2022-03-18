@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:seven_food/data/cubit/profile_cubit/profile_cubit.dart';
 import 'package:seven_food/data/models/card/card.dart';
 import 'package:seven_food/presentation/custom_icons/bottom_nav_icons.dart';
 import 'package:seven_food/presentation/screens/main/bottom_nav_bar_pages/profile_item/card_add_page.dart';
+import 'package:seven_food/presentation/widgets/letter_b.dart';
 import 'package:seven_food/utils/colors.dart';
 import 'package:seven_food/utils/constants.dart';
 import 'package:seven_food/utils/utils.dart';
@@ -25,12 +28,15 @@ class _ProfilePageState extends State<ProfilePage>
   String name = "";
   String phoneNum = "";
   String bonus = "";
+  String token = "";
   late AnimationController animationController;
 
   Future<void> getNameAndNum() async {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     setState(() {
+      token = sharedPreferences.getString("token")!;
+      log(token);
       phoneNum = sharedPreferences.getString("phone")!;
       name = sharedPreferences.getString("name")!;
       bonus = sharedPreferences.getString("bonus")!;
@@ -78,10 +84,11 @@ class _ProfilePageState extends State<ProfilePage>
   Scaffold buildScaffold(BuildContext context, List<Cardd> cards) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         toolbarHeight: 70,
         elevation: 0,
-        backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
         title: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
@@ -108,7 +115,9 @@ class _ProfilePageState extends State<ProfilePage>
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+
+            },
             icon: const Icon(Icons.login),
             color: Colors.black,
           ),
@@ -128,28 +137,7 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
               ),
               tileColor: contentBackground,
-              leading: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  decoration: BoxDecoration(
-                    color: secondaryBlue,
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "Б",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: "ManropeBold",
-                        fontSize: 25,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-              ),
+              leading: const LetterB(),
               title: const Text(
                 "Бонусы",
                 style: TextStyle(
@@ -543,3 +531,4 @@ class _ProfilePageState extends State<ProfilePage>
     );
   }
 }
+

@@ -10,8 +10,8 @@ class VerificationCubit extends Cubit<VerificationState>{
       log("loading");
       await LoginService().loginByCodeConfirmation(code);
         emit(VerificationLogged());
-    }catch(e){
-      emit(VerificationError("$e"));
+    }on ErrorException catch(e){
+      emit(VerificationError(e.message));
     }
   }
 
@@ -25,8 +25,8 @@ class VerificationCubit extends Cubit<VerificationState>{
       }else{
         emit(VerificationError("$data"));
       }
-    }catch(e){
-      emit(VerificationError("$e"));
+    }on ErrorException catch(e){
+      emit(VerificationError(e.message));
     }
   }
 }

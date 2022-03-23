@@ -25,9 +25,11 @@ class FridgeCubit extends Cubit<FridgeState> {
     _channel.unbind('App\\Events\\FridgeProductChanged');
     _channel.unbind('App\\Events\\FridgeClosed');
     _pusherClient.unsubscribe('user.$id');
+    _pusherClient.disconnect();
   }
 
   Future<void> initPusher(int id) async {
+    emit(FridgeInitialState());
     _pusherClient.connect();
     _pusherClient.onConnectionStateChange((state) {
       log('pusher on connection change state');

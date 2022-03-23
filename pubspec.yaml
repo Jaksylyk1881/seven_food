@@ -27,6 +27,9 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  flutter_credit_card: ^3.0.1
+  cloudpayments: ^0.3.0
+  pull_to_refresh: ^2.0.0
   pinput: ^2.1.4
   pusher_client: ^2.0.0
   qr_code_scanner: ^0.7.0

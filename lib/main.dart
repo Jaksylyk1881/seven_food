@@ -49,6 +49,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<FridgeCubit>(create: (context) => FridgeCubit()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         navigatorKey: navigatorKey,
         title: 'Flutter Demo',
         theme: ThemeData(

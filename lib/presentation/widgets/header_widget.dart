@@ -20,6 +20,7 @@ class HeaderWidget extends StatelessWidget {
           child: Center(
               child: Text(
                 title,
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,

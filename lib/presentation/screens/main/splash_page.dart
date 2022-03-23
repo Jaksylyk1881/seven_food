@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:seven_food/data/repository/login_services.dart';
-import 'package:seven_food/presentation/screens/login/login_screen.dart';
+import 'package:seven_food/presentation/screens/login/onboarding.dart';
 import 'package:seven_food/presentation/screens/pin_code/login_by_pin.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,7 +37,7 @@ class _SplashPageState extends State<SplashPage> {
 
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
+          MaterialPageRoute(builder: (context) => const OnBoardingPage()),
         );
       }
     } else {
@@ -45,7 +45,7 @@ class _SplashPageState extends State<SplashPage> {
       }
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        MaterialPageRoute(builder: (context) => const OnBoardingPage()),
       );
     }
   }

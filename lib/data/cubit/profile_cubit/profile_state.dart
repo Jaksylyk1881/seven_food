@@ -7,7 +7,8 @@ class ProfileStateInitial extends ProfileState{}
 class ProfileStateLoading extends ProfileState{}
 class ProfileStateLoaded extends ProfileState{
   List<Cardd> cards;
-  ProfileStateLoaded(this.cards);
+  String bonus;
+  ProfileStateLoaded(this.cards,this.bonus);
 }
 class ProfileStateError extends ProfileState{
   String message;

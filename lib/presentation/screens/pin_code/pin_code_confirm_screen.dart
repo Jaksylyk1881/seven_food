@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:seven_food/data/local_auth_api.dart';
 import 'package:seven_food/data/repository/login_services.dart';
 import 'package:seven_food/presentation/screens/main/main_list.dart';
 import 'package:seven_food/presentation/screens/pin_code/pin_code_screen.dart';
 import 'package:seven_food/presentation/widgets/header_widget.dart';
 import 'package:seven_food/presentation/widgets/indicator_pin_code.dart';
 import 'package:seven_food/presentation/widgets/num_pad.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PinCodeConfirmation extends StatefulWidget {
   final String pin;
@@ -21,10 +23,19 @@ class _PinCodeConfirmationState extends State<PinCodeConfirmation> {
   bool isActiveButton = false;
   int a = 1;
   final TextEditingController _myController = TextEditingController();
+  bool isAvailableBiometrics=false;
+
+  Future<void> hasBiometrics() async {
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+     isAvailableBiometrics = await LocalAuthApi.hasBiometrics();
+     sharedPreferences.setBool("isAvBio", isAvailableBiometrics);
+     sharedPreferences.setBool("isFirstLog", true);
+  }
 
   @override
   void initState() {
     super.initState();
+    hasBiometrics();
     log(widget.pin);
     _myController.addListener(() {
       setState(() {
@@ -42,7 +53,7 @@ class _PinCodeConfirmationState extends State<PinCodeConfirmation> {
         if (a == 2) {
           LoginService().setPinCode(widget.pin);
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const MainBottomList()),);
+              MaterialPageRoute(builder: (context) =>  const MainBottomList()),);
         } else if (a == 3) {
           showDialog<String>(
             context: context,
@@ -86,6 +97,7 @@ class _PinCodeConfirmationState extends State<PinCodeConfirmation> {
                       subtitle: "Для быстрого входо в приложение",),
                   Indicator(controller: _myController),
                   NumPad(
+                    showBioIcon: false,
                     buttonSize: 90,
                     buttonColor: Colors.white,
                     iconColor: Colors.black,

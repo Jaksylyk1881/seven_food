@@ -5,6 +5,7 @@ import 'package:seven_food/data/cubit/fridge_cubit/fridge_cubit.dart';
 import 'package:seven_food/data/models/fridge_changed/fridge_changed.dart';
 import 'package:seven_food/data/models/fridge_closed/fridge_closed.dart';
 import 'package:seven_food/data/models/fridge_opened/fridge_opened.dart';
+import 'package:seven_food/data/repository/fridge_services.dart';
 import 'package:seven_food/presentation/custom_icons/bottom_nav_icons.dart';
 import 'package:seven_food/presentation/screens/main/main_list.dart';
 import 'package:seven_food/presentation/widgets/blue_button.dart';
@@ -15,7 +16,14 @@ import 'package:seven_food/utils/constants.dart';
 class FridgePage extends StatefulWidget {
   final int fridgeId;
   final int id;
-  const FridgePage({Key? key, required this.fridgeId,required this.id}) : super(key: key);
+  final int orderID;
+
+  const FridgePage(
+      {Key? key,
+      required this.fridgeId,
+      required this.id,
+      required this.orderID,})
+      : super(key: key);
 
   @override
   _FridgePageState createState() => _FridgePageState();
@@ -26,7 +34,6 @@ class _FridgePageState extends State<FridgePage> {
   late int fridgeID;
   late int id;
 
-
   @override
   void initState() {
     super.initState();
@@ -35,11 +42,10 @@ class _FridgePageState extends State<FridgePage> {
     BlocProvider.of<FridgeCubit>(context).initPusher(id);
   }
 
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async{
+      onWillPop: () async {
         BlocProvider.of<FridgeCubit>(context).unSubscribe(id);
         return true;
       },
@@ -64,17 +70,22 @@ class _FridgePageState extends State<FridgePage> {
           listener: (BuildContext context, state) {},
           builder: (BuildContext context, Object? state) {
             if (state is FridgeOpenedState) {
-              return buildMainFridgePage(fridgeOpened: state.fridgeOpened,);
+              return buildMainFridgePage(
+                fridgeOpened: state.fridgeOpened,
+              );
             } else if (state is FridgeChangedState) {
               return buildMainFridgePage(
-                  fridgeOpened: state.fridgeOpened!,
-                  fridgeChanged: state.fridgeChanged,);
+                fridgeOpened: state.fridgeOpened!,
+                fridgeChanged: state.fridgeChanged,
+              );
             } else if (state is FridgeClosedState) {
               return buildClosedPage(fridgeClosed: state.fridgeClosed);
-            } else if (state is FridgeLoadingState){
+            } else if (state is FridgeLoadingState) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
+            }else if(state is FridgeInitialState){
+              return buildOpenedPage();
             }
             return buildOpenedPage();
           },
@@ -118,14 +129,39 @@ class _FridgePageState extends State<FridgePage> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 24),
               child: Column(
-                children:  [
+                children: [
                   LabelAndResult(
                     label: 'Сумма оплаты:',
                     result: fridgeClosed.data!.totalAmount!,
                   ),
                   LabelAndResult(
                     label: 'Оплачена с карты:',
-                    result: fridgeClosed.data!.card!.lastFour!,
+                    result: "••••${fridgeClosed.data!.card!.lastFour!}",
+                  ),
+                  LabelAndResult(
+                    label: 'Списано бонусов:',
+                    result: fridgeClosed.data!.usedBonus!,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children:  [
+                        const Text(
+                          "Начислено бонусов",
+                          style: textStyle,
+                        ),
+                        Text(
+                          fridgeClosed.data!.receivedBonus!,
+                          style: const TextStyle(
+                            color: Colors.green,
+                            fontSize: 14,
+                            fontFamily: "ManropeBold",
+                            fontWeight: FontWeight.w600,
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -173,9 +209,10 @@ class _FridgePageState extends State<FridgePage> {
     );
   }
 
-  Column buildMainFridgePage(
-      {required FridgeOpened fridgeOpened,
-      FridgeChanged? fridgeChanged,}) {
+  Column buildMainFridgePage({
+    required FridgeOpened fridgeOpened,
+    FridgeChanged? fridgeChanged,
+  }) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -184,23 +221,31 @@ class _FridgePageState extends State<FridgePage> {
           child: Column(
             children: [
               Container(
-                child: fridgeChanged!=null&&fridgeChanged.products!.isNotEmpty
+                child: fridgeChanged != null &&
+                        fridgeChanged.products!.isNotEmpty
                     ? Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2),
+                        padding: const EdgeInsets.symmetric(vertical: 30),
                         child: ListView.builder(
                           shrinkWrap: true,
                           itemBuilder: (BuildContext context, int index) {
                             return Row(
                               children: [
-                                Container(
-                                  height: 80,
-                                  width: 80,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    color: contentBackground,
-                                  ),
-                                  child: Center(
-                                    child: Image.network(fridgeChanged.products![index].image!,height: 50,),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 2),
+                                  child: Container(
+                                    height: 80,
+                                    width: 80,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      color: contentBackground,
+                                    ),
+                                    child: Center(
+                                      child: Image.network(
+                                        fridgeChanged.products![index].image!,
+                                        height: 50,
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
@@ -214,8 +259,9 @@ class _FridgePageState extends State<FridgePage> {
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(right: 40),
-                                        child: Text(fridgeChanged
-                                            .products![index].name!,),
+                                        child: Text(
+                                          fridgeChanged.products![index].name!,
+                                        ),
                                       ),
                                       Row(
                                         mainAxisAlignment:
@@ -259,15 +305,18 @@ class _FridgePageState extends State<FridgePage> {
                               const Text(
                                 "Список ваших заказов",
                                 style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontFamily: "ManropeBold",
-                                    fontWeight: FontWeight.w600,),
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                  fontFamily: "ManropeBold",
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                               Text(
                                 "Возьмите продукт из холодильника, продукты появятся здесь автоматом",
                                 style: TextStyle(
-                                    color: grey, fontWeight: FontWeight.w400,),
+                                  color: grey,
+                                  fontWeight: FontWeight.w400,
+                                ),
                                 textAlign: TextAlign.center,
                               )
                             ],
@@ -277,21 +326,49 @@ class _FridgePageState extends State<FridgePage> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 26),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                child: Column(
                   children: [
-                    const Text("Итого:"),
-                    const SizedBox(
-                      width: 8,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Text("Итого:"),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          fridgeChanged != null
+                              ? fridgeChanged.totalAmount!
+                              : "0 тг",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ManropeBold",
+                          ),
+                        )
+                      ],
                     ),
-                    Text(
-                      fridgeChanged!=null ? fridgeChanged.totalAmount! : "0 тг",
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: "ManropeBold",
-                      ),
-                    )
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const Text("Бонусы:"),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          fridgeChanged != null
+                              ? fridgeChanged.usedBonus!
+                              : "0 тг",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "ManropeBold",
+                          ),
+                        )
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -350,6 +427,10 @@ class _FridgePageState extends State<FridgePage> {
                   value: switchValue,
                   onChanged: (newValue) {
                     switchValue = newValue;
+                    FridgeService().purchasesUpdate(
+                        orderID: widget.orderID,
+                        usedCardId: fridgeOpened.cards![0].id!,
+                        isBonusUsed: switchValue,);
                     setState(() {});
                   },
                 ),
@@ -359,7 +440,7 @@ class _FridgePageState extends State<FridgePage> {
         ),
         Padding(
           padding: const EdgeInsets.all(16),
-          child: fridgeChanged!=null&&fridgeChanged.products!.isNotEmpty
+          child: fridgeChanged != null && fridgeChanged.products!.isNotEmpty
               ? BlueButton(
                   disabledColor: lightGrey,
                   callback: null,

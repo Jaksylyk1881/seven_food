@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seven_food/data/exeption_error.dart';
 import 'package:seven_food/data/models/products/products.dart';
 import 'package:seven_food/data/repository/showcases_services.dart';
 
@@ -18,8 +19,8 @@ class ProductsCubit extends Cubit<ProductsState>{
         log('${p.name},  ${p.image}, \n');
       }
       emit(ProductsStateLoaded(_list));
-    }catch(e){
-      emit(ProductsStateError("$e"));
+    }on ErrorException catch(e){
+      emit(ProductsStateError(e.message));
     }
   }
 

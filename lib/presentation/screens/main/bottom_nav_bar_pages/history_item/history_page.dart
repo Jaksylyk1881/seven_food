@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:seven_food/data/cubit/history_cubit/history_cubit.dart';
 import 'package:seven_food/data/models/history_main/history_main.dart';
 import 'package:seven_food/data/models/history_main/history_main_details/history_main_detail.dart';
@@ -16,6 +17,8 @@ class HistoryPage extends StatefulWidget {
 }
 
 class _HistoryPageState extends State<HistoryPage> {
+
+  RefreshController controller = RefreshController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,162 +87,174 @@ class _HistoryPageState extends State<HistoryPage> {
                       ),
                     ),
                   )
-                  :ListView.builder(
+                  :SmartRefresher(
+                enablePullUp: true,
+                onRefresh: (){
+                  BlocProvider.of<HistoryCubit>(context).getHistoryRefresh();
+                  controller.refreshCompleted();
+                },
+                onLoading: (){
+                  BlocProvider.of<HistoryCubit>(context).getHistoriesLoad();
+                  controller.loadComplete();
+                },
+                    controller: controller,
+                    child: ListView.builder(
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
-                  final HistoryMain history = state.histories[index];
-                  String? date;
-                  if (index != 0) {
-                    date = state.histories[index-1].createdAt?.substring(0, 10);
-                  } else {
-                    date = state.histories[index].createdAt?.substring(0, 10);
-                  }
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        child: (index==0)?
-                        Padding(
-                          padding:
-                          const EdgeInsets.symmetric(vertical: 16),
-                          child: Text(
-                            '${history.createdAt?.substring(0, 10)}',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400,
-                              color: lightGrey,
-                            ),
-                          ),
-                        )
-                            :((date != history.createdAt?.substring(0, 10))
-                            ? Padding(
-                          padding:
-                          const EdgeInsets.symmetric(vertical: 16),
-                          child: Text(
-                            '${history.createdAt?.substring(0, 10)}',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: lightGrey,
-                            ),
-                          ),
-                        )
-                            : null),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2),
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                          decoration: BoxDecoration(
-                            color: contentBackground,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    '№${history.id}',
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "ManropeBold",
-                                    ),
-                                  ),
-                                  Text(
-                                    '${history.totalAmount}',
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
-                                      fontFamily: "ManropeBold",
-                                    ),
-                                  )
-                                ],
+                    final HistoryMain history = state.histories[index];
+                    String? date;
+                    if (index != 0) {
+                      date = state.histories[index-1].createdAt?.substring(0, 10);
+                    } else {
+                      date = state.histories[index].createdAt?.substring(0, 10);
+                    }
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          child: (index==0)?
+                          Padding(
+                            padding:
+                            const EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                              '${history.createdAt?.substring(0, 10)}',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                                color: lightGrey,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(top: 2),
-                                child: Row(
+                            ),
+                          )
+                              :((date != history.createdAt?.substring(0, 10))
+                              ? Padding(
+                            padding:
+                            const EdgeInsets.symmetric(vertical: 16),
+                            child: Text(
+                              '${history.createdAt?.substring(0, 10)}',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: lightGrey,
+                              ),
+                            ),
+                          )
+                              : null),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2),
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                            decoration: BoxDecoration(
+                              color: contentBackground,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      "${history.showcaseAddress}",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: lightGrey,
+                                      '№${history.id}',
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: "ManropeBold",
                                       ),
                                     ),
                                     Text(
-                                      "-${history.usedBonus}",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: lightGrey,
+                                      '${history.totalAmount}',
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily: "ManropeBold",
                                       ),
                                     )
                                   ],
                                 ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    final HistoryMainDetail historyDetail =
-                                        history.details![index];
-                                    return Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          "${historyDetail.name}  -${historyDetail.quantity}",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: grey,
-                                          ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 2),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "${history.showcaseAddress}",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: lightGrey,
                                         ),
-                                        Text(
-                                          "${historyDetail.price}",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w400,
-                                            color: grey,
-                                          ),
-                                        )
-                                      ],
-                                    );
-                                  },
-                                  itemCount: history.details?.length,
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: TextButton(
-                                  onPressed: () {},
-                                  child: const Text(
-                                    "СКАЧАТЬ ЧЕК",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                                      ),
+                                      Text(
+                                        "-${history.usedBonus}",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          color: lightGrey,
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ),
-                              )
-                            ],
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final HistoryMainDetail historyDetail =
+                                          history.details![index];
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "${historyDetail.name}  -${historyDetail.quantity}",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: grey,
+                                            ),
+                                          ),
+                                          Text(
+                                            "${historyDetail.price}",
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: grey,
+                                            ),
+                                          )
+                                        ],
+                                      );
+                                    },
+                                    itemCount: history.details?.length,
+                                  ),
+                                ),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: TextButton(
+                                    onPressed: () {},
+                                    child: const Text(
+                                      "СКАЧАТЬ ЧЕК",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      )
-                    ],
-                  );
+                        )
+                      ],
+                    );
                 },
                 itemCount: state.histories.length,
               ),
+                  ),
             );
           }
           return Container();
@@ -257,6 +272,6 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<HistoryCubit>(context).getHistories();
+    BlocProvider.of<HistoryCubit>(context).getHistoryRefresh();
   }
 }

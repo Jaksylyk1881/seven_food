@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:seven_food/data/cubit/profile_cubit/add_card_cubit.dart';
 import 'package:seven_food/data/cubit/profile_cubit/profile_cubit.dart';
 import 'package:seven_food/data/models/card/card.dart';
 import 'package:seven_food/data/repository/login_services.dart';
@@ -28,7 +27,6 @@ class _ProfilePageState extends State<ProfilePage>
     with SingleTickerProviderStateMixin {
   String name = "";
   String phoneNum = "";
-  String bonus = "";
   String token = "";
   late AnimationController animationController;
 
@@ -40,7 +38,6 @@ class _ProfilePageState extends State<ProfilePage>
       log(token);
       phoneNum = sharedPreferences.getString("phone")!;
       name = sharedPreferences.getString("name")!;
-      bonus = sharedPreferences.getString("bonus")!;
     });
   }
 
@@ -71,8 +68,9 @@ class _ProfilePageState extends State<ProfilePage>
               child: CircularProgressIndicator(),
             );
           }
+
           if (state is ProfileStateLoaded) {
-            return buildScaffold(context, state.cards);
+            return buildScaffold(context, state.cards, state.bonus);
           }
           return const Center(
             child: Text('Что то пошло не так!'),
@@ -82,7 +80,11 @@ class _ProfilePageState extends State<ProfilePage>
     );
   }
 
-  Scaffold buildScaffold(BuildContext context, List<Cardd> cards) {
+  Scaffold buildScaffold(
+    BuildContext context,
+    List<Cardd> cards,
+    String bonus,
+  ) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -119,27 +121,36 @@ class _ProfilePageState extends State<ProfilePage>
             onPressed: () {
               showCupertinoDialog(
                 barrierDismissible: true,
-                  context: context, builder: (context){
-                return CupertinoAlertDialog(
-                  content: const Text("Вы уверены что хотите выйти?"),
-                  actions: [
-                    CupertinoDialogAction(
-                        child: const Text("Выйти",style: TextStyle(fontWeight: FontWeight.bold),),
-                        onPressed: ()
-                        {
+                context: context,
+                builder: (context) {
+                  return CupertinoAlertDialog(
+                    content: const Text("Вы уверены что хотите выйти?"),
+                    actions: [
+                      CupertinoDialogAction(
+                        child: const Text(
+                          "Выйти",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () {
                           LoginService().logOut();
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const LoginScreen()));
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ),
+                          );
                         },
-                    ),
-                    CupertinoDialogAction(
+                      ),
+                      CupertinoDialogAction(
                         child: const Text("Отмена"),
-                        onPressed: (){
+                        onPressed: () {
                           Navigator.of(context).pop();
                         },
-                    )
-                  ],
-                );
-              },);
+                      )
+                    ],
+                  );
+                },
+              );
             },
             icon: const Icon(Icons.login),
             color: Colors.black,
@@ -205,10 +216,20 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
               ),
               trailing: (cards.isEmpty)
-                  ? buildBlocConsumerForAddCard()
+                  ? IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CardAdd(),
+                          ),
+                        );
+                      },
+                    )
                   : TextButton(
                       onPressed: () {
-                        showBottomSheetForCard();
+                        showBottomSheetForCard(cards);
                       },
                       child: Text(
                         cards[0].maskedPan!,
@@ -348,6 +369,9 @@ class _ProfilePageState extends State<ProfilePage>
                                         color: contentBackground,
                                       ),
                                       child: ListTile(
+                                        onTap: (){
+                                          Navigator.pop(context);
+                                        },
                                         tileColor: contentBackground,
                                         leading: const Icon(
                                           BottomNavIcons.document,
@@ -406,41 +430,7 @@ class _ProfilePageState extends State<ProfilePage>
     );
   }
 
-  BlocConsumer<AddCardCubit, AddCardState> buildBlocConsumerForAddCard() {
-    return BlocConsumer<AddCardCubit, AddCardState>(
-                  listener: (BuildContext context, state) {
-                    if (state is AddCardStateLoading) {
-                      setState(() {
-                        context.loaderOverlay.show();
-                      });
-                    }else if(state is AddCardStateError){
-                      setState(() {
-                        context.loaderOverlay.hide();
-                      });
-                      buildShowError(context, state.message);
-                    }else if(state is AddCardStateLoaded){
-                      setState(() {
-                        context.loaderOverlay.hide();
-                      });
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CardAdd(url: state.url,),),
-                      );
-                    }
-                  },
-                  builder: (BuildContext context, Object? state) {
-                    return IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: () {
-                        BlocProvider.of<AddCardCubit>(context).addCard();
-                      },
-                    );
-                  },
-                );
-  }
-
-  void showBottomSheetForCard() {
+  void showBottomSheetForCard(List<Cardd> cards) {
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -485,39 +475,53 @@ class _ProfilePageState extends State<ProfilePage>
                           ),
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            topLeft: Radius.circular(10),
-                          ),
-                          color: contentBackground,
-                        ),
-                        child: ListTile(
-                          tileColor: contentBackground,
-                          leading: const Icon(
-                            BottomNavIcons.document,
-                            color: Colors.black,
-                          ),
-                          title: const Text(
-                            '--9854',
-                            style: textStyle2,
-                          ),
-                          trailing: TextButton(
-                            onPressed: () {
-                              //delete card
-                            },
-                            child: Text(
-                              "Удалить",
-                              style: TextStyle(
-                                color: grey,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 18,
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: cards.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 1),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              decoration: BoxDecoration(
+                                borderRadius: index == 0
+                                    ? const BorderRadius.only(
+                                        topRight: Radius.circular(10),
+                                        topLeft: Radius.circular(10),
+                                      )
+                                    : null,
+                                color: contentBackground,
+                              ),
+                              child: ListTile(
+                                tileColor: contentBackground,
+                                leading: const Icon(
+                                  BottomNavIcons.document,
+                                  color: Colors.black,
+                                ),
+                                title: Text(
+                                  cards[index].maskedPan!,
+                                  style: textStyle2,
+                                ),
+                                trailing: TextButton(
+                                  onPressed: () {
+                                    BlocProvider.of<ProfileCubit>(
+                                      context,
+                                    ).deleteCard(cards[index].id!);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    "Удалить",
+                                    style: TextStyle(
+                                      color: grey,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       ),
                       const SizedBox(
                         height: 1,
@@ -533,7 +537,17 @@ class _ProfilePageState extends State<ProfilePage>
                         ),
                         child: ListTile(
                           tileColor: contentBackground,
-                          leading: buildBlocConsumerForAddCard(),
+                          leading: IconButton(
+                            icon: const Icon(Icons.add),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const CardAdd(),
+                                ),
+                              );
+                            },
+                          ),
                           title: const Text(
                             'Добавить карту',
                             style: textStyle2,

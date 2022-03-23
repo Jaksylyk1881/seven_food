@@ -2,18 +2,19 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
+import 'package:seven_food/data/exeption_error.dart';
 import 'package:seven_food/data/models/history_details/history.dart';
 import 'package:seven_food/data/models/history_details/history_details_details/history_detail.dart';
 import 'package:seven_food/data/models/history_main/history_main.dart';
 import 'package:seven_food/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class HistoryServices{
-  Future<List<HistoryMain>> getHistories() async {
+  Future<List<HistoryMain>> getHistories(int page) async {
     final SharedPreferences sharedPreferences =
     await SharedPreferences.getInstance();
     final String? token = sharedPreferences.getString("token");
     final response = await http.get(
-      Uri.parse('$baseUrl/users/histories'),
+      Uri.parse('$baseUrl/users/histories?page=$page'),
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json; charset=UTF-8',
@@ -29,7 +30,7 @@ class HistoryServices{
           .toList();
     }catch(e){
       log("${data["message"]}");
-      throw Exception(data['message']);
+      throw ErrorException(message:data['message'] as String);
     }
   }
 
@@ -61,7 +62,7 @@ class HistoryServices{
         return historyDetail;
       }catch(e){
         log("${data["message"]}");
-        throw Exception(data['message']);
+        throw ErrorException(message:data['message'] as String);
       }
   }
 }

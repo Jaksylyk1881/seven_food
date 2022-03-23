@@ -9,6 +9,9 @@ class NumPad extends StatelessWidget {
   final TextEditingController controller;
   final Function delete;
   final Function onSubmit;
+  final void Function()? onTap;
+  final bool showBioIcon;
+
 
   const NumPad({
     Key? key,
@@ -18,6 +21,8 @@ class NumPad extends StatelessWidget {
     required this.delete,
     required this.onSubmit,
     required this.controller,
+    this.onTap,
+    required this.showBioIcon,
   }) : super(key: key);
 
   @override
@@ -105,7 +110,13 @@ class NumPad extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // this button is used to delete the last number
-              SizedBox(width: buttonSize,),
+              if (!showBioIcon) SizedBox(width: buttonSize,) else SizedBox(width: buttonSize,
+              height: buttonSize,
+
+              child: InkWell(
+                onTap:onTap,
+                child: const Icon(Icons.fingerprint),
+              ),),
               NumberButton(
                 number: 0,
                 size: buttonSize,

@@ -1,7 +1,9 @@
 import 'dart:collection';
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +16,7 @@ import 'package:seven_food/presentation/screens/main/bottom_nav_bar_pages/qr_ite
 import 'package:seven_food/presentation/widgets/list_tile_showcase.dart';
 import 'package:seven_food/utils/colors.dart';
 import 'package:seven_food/utils/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainItem extends StatefulWidget {
   static String mapStyle = '''
@@ -65,6 +68,24 @@ class _MainItemState extends State<MainItem>  with SingleTickerProviderStateMixi
   final Set<Marker> _markers = HashSet<Marker>();
   late Uint8List markerIcon;
   late AnimationController animationController;
+  late  bool isAvBio = false;
+  late bool isFirstLog = false;
+
+  Future<void> getBool() async {
+    final SharedPreferences sharedPreferences =
+    await SharedPreferences.getInstance();
+    setState(() {
+      isAvBio = sharedPreferences.getBool("isAvBio")!;
+      isFirstLog = sharedPreferences.getBool("isFirstLog")!;
+    });
+  }
+  Future<void> setBool()async{
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    setState(() {
+      sharedPreferences.setBool("isFirstLog", false);
+    });
+  }
+
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     final ByteData data = await rootBundle.load(path);
@@ -76,6 +97,7 @@ class _MainItemState extends State<MainItem>  with SingleTickerProviderStateMixi
         .asUint8List();
   }
 
+
   Future<void> _setMarkerIcon() async {
 
     markerIcon = await getBytesFromAsset("images/marker1.png", 150);
@@ -84,19 +106,59 @@ class _MainItemState extends State<MainItem>  with SingleTickerProviderStateMixi
   @override
   void initState() {
     super.initState();
+    getBool();
     animationController = BottomSheet.createAnimationController(this);
     animationController.duration = const Duration(milliseconds: 300);
     animationController.reverseDuration = const Duration(milliseconds: 300);
     BlocProvider.of<ShowcasesCubit>(context).getShowcases();
     _setMarkerIcon();
   }
-
+  Future<void> useBiometrics({required bool value}) async {
+    final SharedPreferences sharedPreferences =
+    await SharedPreferences.getInstance();
+    sharedPreferences.setBool("useBiometrics", value);
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShowcasesCubit, ShowcasesState>(
       listener: (BuildContext context, state) {
         if (state is ShowcasesStateError) {
           buildShowError(context, state.message);
+        }
+        if(state is ShowcasesStateLoaded){
+          if(isFirstLog&&isAvBio){
+            showCupertinoDialog(
+              barrierDismissible: true,
+              context: context,
+              builder: (context) {
+                return CupertinoAlertDialog(
+                  content: Platform.isIOS
+                      ? const Text("Использовать Face ID при входе?")
+                      : const Text("Использовать отпечаток при входе?"),
+                  actions: [
+                    CupertinoDialogAction(
+                      child: const Text(
+                        "Разрешить",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () {
+                        useBiometrics(value: true);
+                        Navigator.pop(context);
+                      },
+                    ),
+                    CupertinoDialogAction(
+                      child: const Text("Запретить"),
+                      onPressed: () {
+                        useBiometrics(value: false);
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                );
+              },
+            );
+            setBool();
+          }
         }
       },
       builder: (BuildContext context, Object? state) {

@@ -83,7 +83,7 @@ class _QrByCodePageState extends State<QrByCodePage> {
                 context.loaderOverlay.hide();
               });
               WidgetsBinding.instance?.addPostFrameCallback((_) {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FridgePage(fridgeId: fridgeId,id:id)));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FridgePage(fridgeId: fridgeId,id:id,orderID: state.orderID,)));
               });
             }else if(state is QrStateError){
               setState(() {

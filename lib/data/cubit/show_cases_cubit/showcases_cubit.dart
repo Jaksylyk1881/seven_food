@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:seven_food/data/exeption_error.dart';
 import 'package:seven_food/data/models/showcases/showcases.dart';
 import 'package:seven_food/data/repository/showcases_services.dart';
 
@@ -13,8 +14,8 @@ class ShowcasesCubit extends Cubit<ShowcasesState>{
       emit(ShowcasesStateLoading());
       _list = await ShowcasesService().getShowcases();
       emit(ShowcasesStateLoaded(_list));
-    }catch(e){
-      emit(ShowcasesStateError("$e"));
+    }on ErrorException catch(e){
+      emit(ShowcasesStateError(e.message));
     }
   }
 

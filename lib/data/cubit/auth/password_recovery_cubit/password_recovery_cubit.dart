@@ -13,8 +13,8 @@ class PasswordRecoveryCubit extends Cubit<PasswordRecoveryState>{
       await LoginService().loginByCode(phoneNumber);
         emit(PasswordRecoverySuccess());
 
-    }catch(e){
-      emit(PasswordRecoveryError('$e'));
+    }on ErrorException catch(e){
+      emit(PasswordRecoveryError(e.message));
     }
   }
 

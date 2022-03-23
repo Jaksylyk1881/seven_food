@@ -60,7 +60,7 @@ class _QrCameraPageState extends State<QrCameraPage> {
             });
             WidgetsBinding.instance?.addPostFrameCallback((_) {
               controller?.dispose();
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FridgePage(fridgeId: fridgeId,id: id,)));
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> FridgePage(fridgeId: fridgeId,id: id,orderID: state.orderID,)));
             });
           }else if(state is QrStateError){
             setState(() {

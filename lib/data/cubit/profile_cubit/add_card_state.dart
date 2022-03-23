@@ -6,8 +6,6 @@ abstract class AddCardState{}
 class AddCardStateInitial extends AddCardState{}
 class AddCardStateLoading extends AddCardState{}
 class AddCardStateLoaded extends AddCardState{
-  String url;
-  AddCardStateLoaded(this.url);
 }
 class AddCardStateError extends AddCardState{
   String message;

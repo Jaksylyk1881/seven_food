@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
+import 'package:seven_food/data/exeption_error.dart';
 import 'package:seven_food/data/models/products/products.dart';
 import 'package:seven_food/data/models/showcases/showcases.dart';
 import 'package:seven_food/utils/constants.dart';
@@ -29,7 +30,7 @@ class ShowcasesService {
           .map((product) => Product.fromJson(product as Map<String, dynamic>))
           .toList();
     }catch(e){
-      throw Exception(data['message']);
+      throw ErrorException(message:data['message'] as String);
     }
   }
 
@@ -55,7 +56,7 @@ class ShowcasesService {
           Showcases.fromJson(showcase as Map<String, dynamic>),)
           .toList();
     }catch(e){
-      throw Exception(data['message']);
+      throw ErrorException(message:data['message'] as String);
     }
 
   }

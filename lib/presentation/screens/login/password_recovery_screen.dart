@@ -131,8 +131,7 @@ class _PasswordRecoveryState extends State<PasswordRecovery> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: BlueButton(
-                        color: blueForButton,
-                          callback: isButtonActive
+                        callback: isButtonActive
                               ? () {
                                   BlocProvider.of<PasswordRecoveryCubit>(
                                           context,)

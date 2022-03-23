@@ -10,17 +10,30 @@ part 'profile_state.dart';
 class ProfileCubit extends Cubit<ProfileState>{
   ProfileCubit() : super(ProfileStateInitial());
   List<Cardd> _list = [];
-
+  String bonus = "";
+  //TODO make profile model
   Future<void> getCards() async{
     try{
       emit(ProfileStateLoading());
+
       _list = await CardServices().getCards();
-      emit(ProfileStateLoaded(_list));
+      bonus = await CardServices().getBonus();
+      emit(ProfileStateLoaded(_list,bonus));
     }on ErrorException catch(e){
       log("$e");
       emit(ProfileStateError(e.message));
     }
   }
-
+  Future<void> deleteCard(int id) async{
+    emit(ProfileStateLoading());
+    try{
+      await CardServices().deleteCard(id);
+      _list = await CardServices().getCards();
+      bonus = await CardServices().getBonus();
+      emit(ProfileStateLoaded(_list,bonus));
+    }on ErrorException catch(e){
+      emit(ProfileStateError(e.message));
+    }
+  }
 
 }

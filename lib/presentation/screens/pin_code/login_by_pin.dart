@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seven_food/data/local_auth_api.dart';
 import 'package:seven_food/presentation/screens/login/login_screen.dart';
 import 'package:seven_food/presentation/screens/main/main_list.dart';
 import 'package:seven_food/presentation/widgets/header_widget.dart';
@@ -19,21 +20,43 @@ class _LoginByPinCodeState extends State<LoginByPinCode> {
   final TextEditingController _myController = TextEditingController();
     String name="";
   late String pin;
+  late bool useBiometrics = false;
   int a = 1;
   Future<void> getPinCode() async{
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     setState(() {
       pin = sharedPreferences.getString("pinCode")!;
       name = sharedPreferences.getString("name")!;
+      useBiometrics = sharedPreferences.getBool("useBiometrics")!;
     });
   }
+  bool isAvailableBiometrics=false;
 
+  Future<void> hasBiometrics() async {
+    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    isAvailableBiometrics = await LocalAuthApi.hasBiometrics();
+    sharedPreferences.setBool("isAvBio", isAvailableBiometrics);
+    sharedPreferences.setBool("isFirstLog", false);
+  }
+
+
+  Future<void> biometricLogin() async{
+    final isAuthenticated = await LocalAuthApi.authenticate();
+    if (isAuthenticated) {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const MainBottomList()),
+      );
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-
+    hasBiometrics();
     getPinCode();
+    if(useBiometrics){
+      biometricLogin();
+    }
     _myController.addListener(() {
       setState(() {
         if ((_myController.text == pin) &&
@@ -90,6 +113,10 @@ class _LoginByPinCodeState extends State<LoginByPinCode> {
                       subtitle: "Мы рады, что вы снова здесь",),
                   Indicator(controller: _myController),
                   NumPad(
+                    onTap: (){
+                      biometricLogin();
+                    },
+                    showBioIcon: isAvailableBiometrics&&useBiometrics,
                     buttonSize: 90,
                     buttonColor: Colors.white,
                     iconColor: Colors.black,
@@ -133,4 +160,5 @@ class _LoginByPinCodeState extends State<LoginByPinCode> {
       ),
     );
   }
+
 }

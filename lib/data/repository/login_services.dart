@@ -10,7 +10,6 @@ class LoginService {
 
 
   Future loginByNumAndPassword(String phoneNumber, String password) async {
-    try {
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       final response = await http.post(
@@ -24,23 +23,21 @@ class LoginService {
       );
 
       final data = jsonDecode(response.body);
-      if (response.statusCode == 200) {
+      try{
         log("Status Code::: 200");
         sharedPreferences.setString('phone', phoneNumber);
         sharedPreferences.setInt('id', data["id"] as int);
         sharedPreferences.setString('token', data["token"] as String);
         getProfile(data["token"] as String);
         return response.statusCode;
-      } else {
-        throw Exception("${data["message"]}");
+      } catch(e) {
+        throw ErrorException(message: data["message"] as String);
       }
-    } catch (e) {
-      throw Exception("$e");
-    }
+
   }
 
   Future<void> loginByCode(String phoneNumber) async {
-    try {
+
       log("inside");
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
@@ -54,21 +51,17 @@ class LoginService {
       );
 
       final data = jsonDecode(response.body);
-      if (response.statusCode == 200) {
+      try{
         log("Status Code::: 200");
 
         sharedPreferences.setString('phone', data["phone"] as String);
-      } else {
-        throw Exception(data["message"]);
+      } catch(e) {
+        throw ErrorException(message: data["message"] as String);
       }
-    } catch (e) {
-      log('$e');
-      throw Exception(e);
-    }
+
   }
 
   Future loginByCodeConfirmation(String code) async {
-    try {
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       final String? phoneNumber = sharedPreferences.getString('phone');
@@ -85,26 +78,22 @@ class LoginService {
       log("PHONE NUMBER:::::$phoneNumber");
       log("CODE:::::$code");
       final data = jsonDecode(response.body);
-      if (response.statusCode == 200) {
+      try {
         log("Status Code::: 200");
         sharedPreferences.setString('phone', phoneNumber);
         sharedPreferences.setInt('id', data["id"] as int);
         sharedPreferences.setString('token', data["token"] as String);
         getProfile(data["token"] as String);
         return response.statusCode;
-      } else {
+      } catch(e) {
         log("${data["message"]}");
-        throw Exception("${data["message"]}");
+        throw ErrorException(message: data["message"] as String);
       }
-    } catch (e) {
-      log('$e');
-      throw Exception(e);
-    }
   }
 
   Future registration(String name, String phoneNumber, String password,
       String passwordConfirmation,) async {
-    try {
+
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       final response = await http.post(
@@ -122,23 +111,17 @@ class LoginService {
       );
 
       final data = jsonDecode(response.body);
-      if (response.statusCode == 200) {
+      try {
         log("Status Code::: 200");
         sharedPreferences.setString('phone', data["phone"] as String);
         return response.statusCode;
-      } else {
+      } catch(e) {
         log("${data["message"]}");
-
-        throw Exception("${data["message"]}");
+        throw ErrorException(message: data["message"] as String);
       }
-    } catch (e) {
-      log('$e');
-      throw Exception(e);
-    }
   }
 
   Future registerConfirmation(String code) async {
-    try {
       final SharedPreferences sharedPreferences =
           await SharedPreferences.getInstance();
       final String? phoneNumber = sharedPreferences.getString('phone');
@@ -155,21 +138,17 @@ class LoginService {
       log("PHONE NUMBER:::::$phoneNumber");
       log("CODE:::::$code");
       final data = jsonDecode(response.body);
-      if (response.statusCode == 200) {
+     try {
         log("Status Code::: 200");
         sharedPreferences.setString('phone', phoneNumber);
         sharedPreferences.setInt('id', data["id"] as int);
         sharedPreferences.setString('token', data["token"] as String);
         getProfile(data["token"] as String);
         return response.statusCode;
-      } else {
+      }  catch(e){
         log("${data["message"]}");
-        throw Exception("${data["message"]}");
+        throw ErrorException(message: data["message"] as String);
       }
-    } catch (e) {
-      log('$e');
-      throw Exception(e);
-    }
   }
 
   Future<void> logOut() async {

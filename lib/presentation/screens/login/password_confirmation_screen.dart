@@ -215,8 +215,7 @@ class _PasswordConfirmationState extends State<PasswordConfirmation> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: BlueButton(
-                        color: blueForButton,
-                          callback: isActiveButton
+                        callback: isActiveButton
                               ? () {
                                   controller.clear();
                                   (isRegistration!)

@@ -14,7 +14,7 @@ class QrCubit extends Cubit<QrState>{
       emit(QrStateLoading());
       final int orderID = await FridgeService().openFridge(fridgeId);
       log("order id :::::::::: $orderID");
-      emit(QrStateLoaded());
+      emit(QrStateLoaded(orderID));
     }on ErrorException catch(e){
       log("$e");
       emit(QrStateError(e.message));

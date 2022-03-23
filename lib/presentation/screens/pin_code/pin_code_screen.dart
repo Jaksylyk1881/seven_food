@@ -58,6 +58,7 @@ class _PinCodeState extends State<PinCode> {
                     controller: _myController,
                   ),
                   NumPad(
+                    showBioIcon: false,
                     buttonSize: 90,
                     buttonColor: Colors.white,
                     iconColor: Colors.black,
@@ -86,8 +87,7 @@ class _PinCodeState extends State<PinCode> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 25, vertical: 25,),
                     child: BlueButton(
-                      color: blueForButton,
-                        callback: isActiveButton
+                      callback: isActiveButton
                             ? () {
                                 WidgetsBinding.instance
                                     ?.addPostFrameCallback((_) {

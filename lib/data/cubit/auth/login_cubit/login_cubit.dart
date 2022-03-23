@@ -10,8 +10,8 @@ class LoginCubit extends Cubit<LoginState>{
     try {
      await LoginService().loginByNumAndPassword(phoneNumber, password);
        emit(LoginLogged());
-  }catch(e){
-      emit(LoginError('$e'));
+  } on ErrorException catch(e){
+      emit(LoginError(e.message));
     }
   }
 
@@ -27,8 +27,8 @@ class LoginCubit extends Cubit<LoginState>{
       }else{
         emit(LoginError("$data"));
       }
-    }catch(e){
-      emit(LoginError("$e"));
+    }on ErrorException catch(e){
+      emit(LoginError(e.message));
     }
   }
 }

@@ -8,6 +8,7 @@ class BottomNavIcons {
   static const _kFontFam3 = 'customIcon3';
   static const _kFontFam4 = 'customIcon4';
   static const _kFontFam5 = 'customIcon5';
+  static const _kFontFam6 = 'customIcon6';
 
 
   static const IconData chat = IconData(0xe800, fontFamily: _kFontFam);
@@ -20,4 +21,6 @@ class BottomNavIcons {
   static const IconData telegramPlane = IconData(0xf3fe, fontFamily: _kFontFam3);
   static const IconData union = IconData(0xe800, fontFamily: _kFontFam4,);
   static const IconData document = IconData(0xe801, fontFamily: _kFontFam5,);
+  static const IconData mastercardLogo = IconData(0xe802, fontFamily: _kFontFam6, );
+  static const IconData visaLogo = IconData(0xe803, fontFamily: _kFontFam6,);
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:seven_food/data/cubit/fridge_cubit/fridge_cubit.dart';
 import 'package:seven_food/data/models/fridge_changed/fridge_changed.dart';
 import 'package:seven_food/data/models/fridge_closed/fridge_closed.dart';
@@ -10,6 +11,8 @@ import 'package:seven_food/presentation/custom_icons/bottom_nav_icons.dart';
 import 'package:seven_food/presentation/screens/main/main_list.dart';
 import 'package:seven_food/presentation/widgets/blue_button.dart';
 import 'package:seven_food/presentation/widgets/letter_b.dart';
+import 'package:seven_food/presentation/widgets/master_card_logo_for_card.dart';
+import 'package:seven_food/presentation/widgets/visa_logo_for_card.dart';
 import 'package:seven_food/utils/colors.dart';
 import 'package:seven_food/utils/constants.dart';
 
@@ -134,9 +137,33 @@ class _FridgePageState extends State<FridgePage> {
                     label: 'Сумма оплаты:',
                     result: fridgeClosed.data!.totalAmount!,
                   ),
-                  LabelAndResult(
-                    label: 'Оплачена с карты:',
-                    result: "••••${fridgeClosed.data!.card!.lastFour!}",
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children:  [
+                        const Text(
+                          "Оплачена с карты:",
+                          style: textStyle,
+                        ),
+                        Row(
+                          children: [
+                            Text("••••${fridgeClosed.data!.card!.lastFour!}",            style: const TextStyle(
+                              fontSize: 14,
+                              fontFamily: "ManropeBold",
+                              fontWeight: FontWeight.w600,
+                            ),),
+                            const SizedBox(width: 4,),
+                            if (fridgeClosed.data!.card!.type=="Visa") SvgPicture.asset(
+                              "icons/visa.svg",
+                              color: Colors.blue,
+                            ) else SvgPicture.asset(
+                              "icons/mastercard.svg",
+                            )
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                   LabelAndResult(
                     label: 'Списано бонусов:',
@@ -382,7 +409,8 @@ class _FridgePageState extends State<FridgePage> {
                   ),
                 ),
                 tileColor: contentBackground,
-                leading: const LetterB(),
+                leading: (fridgeOpened.cards![0].type=="Visa")?
+                const VisaLogoForCard():const MasterCardLogoForCard(),
                 title: const Text(
                   'Оплатить с карты',
                   style: textStyle3,

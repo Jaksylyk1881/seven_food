@@ -11,10 +11,13 @@ import 'package:seven_food/presentation/custom_icons/bottom_nav_icons.dart';
 import 'package:seven_food/presentation/screens/login/login_screen.dart';
 import 'package:seven_food/presentation/screens/main/bottom_nav_bar_pages/profile_item/card_add_page.dart';
 import 'package:seven_food/presentation/widgets/letter_b.dart';
+import 'package:seven_food/presentation/widgets/master_card_logo_for_card.dart';
+import 'package:seven_food/presentation/widgets/visa_logo_for_card.dart';
 import 'package:seven_food/utils/colors.dart';
 import 'package:seven_food/utils/constants.dart';
 import 'package:seven_food/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -124,12 +127,18 @@ class _ProfilePageState extends State<ProfilePage>
                 context: context,
                 builder: (context) {
                   return CupertinoAlertDialog(
-                    content: const Text("Вы уверены что хотите выйти?"),
+                    content: const Text("Вы уверены что хотите выйти?",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "Manrope",),
+                        textAlign: TextAlign.center,),
                     actions: [
                       CupertinoDialogAction(
                         child: const Text(
                           "Выйти",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black,),
                         ),
                         onPressed: () {
                           LoginService().logOut();
@@ -142,11 +151,16 @@ class _ProfilePageState extends State<ProfilePage>
                         },
                       ),
                       CupertinoDialogAction(
-                        child: const Text("Отмена"),
+                        child: const Text(
+                          "Отмена",
+                          style: TextStyle(color: Colors.black),
+                          textAlign: TextAlign.center,
+                        ),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                      )
+                      ),
+                      Container()
                     ],
                   );
                 },
@@ -289,7 +303,7 @@ class _ProfilePageState extends State<ProfilePage>
               leading: const Padding(
                 padding: EdgeInsets.only(left: 16, right: 16),
                 child: Icon(
-                  Icons.document_scanner,
+                  BottomNavIcons.document,
                   color: Colors.black,
                 ),
               ),
@@ -369,8 +383,14 @@ class _ProfilePageState extends State<ProfilePage>
                                         color: contentBackground,
                                       ),
                                       child: ListTile(
-                                        onTap: (){
-                                          Navigator.pop(context);
+                                        onTap: () async {
+                                          const url =
+                                              "https://docs.google.com/document/u/0/d/1s0HNlrNoseqZwbj89zvyl4zGihshZwJR0lc0TiosyEE/mobilebasic";
+                                          if (await canLaunch(url)) {
+                                            await launch(url);
+                                          } else {
+                                            // can't launch url
+                                          }
                                         },
                                         tileColor: contentBackground,
                                         leading: const Icon(
@@ -398,6 +418,15 @@ class _ProfilePageState extends State<ProfilePage>
                                         color: contentBackground,
                                       ),
                                       child: ListTile(
+                                        onTap: () async {
+                                          const url =
+                                              "https://docs.google.com/document/u/0/d/1IsA5fyCKmAZCs7uggYYXUFGNvfZT9iA8_0Kboe5itdk/mobilebasic";
+                                          if (await canLaunch(url)) {
+                                            await launch(url);
+                                          } else {
+                                            // can't launch url
+                                          }
+                                        },
                                         tileColor: contentBackground,
                                         leading: const Icon(
                                           BottomNavIcons.document,
@@ -494,20 +523,56 @@ class _ProfilePageState extends State<ProfilePage>
                               ),
                               child: ListTile(
                                 tileColor: contentBackground,
-                                leading: const Icon(
-                                  BottomNavIcons.document,
-                                  color: Colors.black,
-                                ),
+                                leading: (cards[index].type=="Visa")?
+                                  const VisaLogoForCard():const MasterCardLogoForCard()
+                            ,
                                 title: Text(
                                   cards[index].maskedPan!,
                                   style: textStyle2,
                                 ),
                                 trailing: TextButton(
                                   onPressed: () {
-                                    BlocProvider.of<ProfileCubit>(
-                                      context,
-                                    ).deleteCard(cards[index].id!);
-                                    Navigator.pop(context);
+                                    showCupertinoDialog(
+                                      barrierDismissible: true,
+                                      context: context,
+                                      builder: (context) {
+                                        return CupertinoAlertDialog(
+                                          content:  Text("Вы уверены что хотите удалить карту “${cards[index].maskedPan?.substring(3)}”?",
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w400,
+                                              fontFamily: "ManropeBold",),
+                                            textAlign: TextAlign.center,),
+                                          actions: [
+                                            CupertinoDialogAction(
+                                              child: const Text(
+                                                "Удалить",
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold, color: Colors.black,),
+                                              ),
+                                              onPressed: () {
+                                                BlocProvider.of<ProfileCubit>(
+                                                  context,
+                                                ).deleteCard(cards[index].id!);
+                                                Navigator.pop(context);
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                            CupertinoDialogAction(
+                                              child: const Text(
+                                                "Отмена",
+                                                style: TextStyle(color: Colors.black),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                            Container()
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                   child: Text(
                                     "Удалить",

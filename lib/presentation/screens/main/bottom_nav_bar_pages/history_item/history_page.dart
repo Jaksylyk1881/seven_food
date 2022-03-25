@@ -24,6 +24,7 @@ class _HistoryPageState extends State<HistoryPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        centerTitle: false,
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title: const Padding(
@@ -52,7 +53,7 @@ class _HistoryPageState extends State<HistoryPage> {
             );
           } else if (state is HistoryStateLoaded) {
             return Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.fromLTRB(16,16,16,0),
               child: (state.histories.isEmpty)?
                   Center(
                     child: Padding(

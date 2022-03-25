@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:seven_food/data/cubit/show_cases_cubit/showcases_cubit.dart';
 import 'package:seven_food/data/models/showcases/showcases.dart';
@@ -15,6 +16,7 @@ import 'package:seven_food/presentation/screens/main/bottom_nav_bar_pages/main_i
 import 'package:seven_food/presentation/screens/main/bottom_nav_bar_pages/qr_item/qr_camera_page.dart';
 import 'package:seven_food/presentation/widgets/list_tile_showcase.dart';
 import 'package:seven_food/utils/colors.dart';
+import 'package:seven_food/utils/constants.dart';
 import 'package:seven_food/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -128,18 +130,18 @@ class _MainItemState extends State<MainItem>  with SingleTickerProviderStateMixi
         if(state is ShowcasesStateLoaded){
           if(isFirstLog&&isAvBio){
             showCupertinoDialog(
-              barrierDismissible: true,
+              barrierDismissible: false,
               context: context,
               builder: (context) {
                 return CupertinoAlertDialog(
                   content: Platform.isIOS
-                      ? const Text("Использовать Face ID при входе?")
-                      : const Text("Использовать отпечаток при входе?"),
+                      ? const Text("Использовать Face ID при входе?",style: textStyleForAlert1,)
+                      : const Text("Использовать отпечаток при входе?",style: textStyleForAlert1,),
                   actions: [
                     CupertinoDialogAction(
                       child: const Text(
                         "Разрешить",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
                       ),
                       onPressed: () {
                         useBiometrics(value: true);
@@ -147,12 +149,13 @@ class _MainItemState extends State<MainItem>  with SingleTickerProviderStateMixi
                       },
                     ),
                     CupertinoDialogAction(
-                      child: const Text("Запретить"),
+                      child: const Text("Запретить",style: TextStyle(color: Colors.black),),
                       onPressed: () {
                         useBiometrics(value: false);
                         Navigator.pop(context);
                       },
-                    )
+                    ),
+                    Container(),
                   ],
                 );
               },
@@ -309,9 +312,15 @@ class _MainItemState extends State<MainItem>  with SingleTickerProviderStateMixi
                                                 child: Center(
                                                   child: Row(
                                                     mainAxisAlignment: MainAxisAlignment.center,
-                                                    children: const [
-                                                      Icon(BottomNavIcons.basket,color: Colors.white,size: 24,),
-                                                      Text("Открыть",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700,letterSpacing: 1))
+                                                    children:  [
+                                                      Padding(
+                                                        padding:  const EdgeInsets.all(8.0),
+                                                        child: SvgPicture.asset(
+                                                          "icons/qr.svg",
+                                                          semanticsLabel: 'QR Logo',
+                                                        ),
+                                                      ),
+                                                      const Text("Открыть",style:  TextStyle(color: Colors.white,fontWeight: FontWeight.w700,letterSpacing: 1))
                                                     ],
                                                   ),
                                                 ),),)

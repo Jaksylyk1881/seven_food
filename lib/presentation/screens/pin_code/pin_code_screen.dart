@@ -4,7 +4,6 @@ import 'package:seven_food/presentation/widgets/blue_button.dart';
 import 'package:seven_food/presentation/widgets/header_widget.dart';
 import 'package:seven_food/presentation/widgets/indicator_pin_code.dart';
 import 'package:seven_food/presentation/widgets/num_pad.dart';
-import 'package:seven_food/utils/colors.dart';
 
 class PinCode extends StatefulWidget {
   static const String id = "/pin_code";
@@ -72,15 +71,15 @@ class _PinCodeState extends State<PinCode> {
                     },
                     // do something with the input numbers
                     onSubmit: () {
-                      debugPrint('Your code: ${_myController.text}');
-                      showDialog(
-                          context: context,
-                          builder: (_) => AlertDialog(
-                                content: Text(
-                                  "You code is ${_myController.text}",
-                                  style: const TextStyle(fontSize: 30),
-                                ),
-                              ),);
+                      // debugPrint('Your code: ${_myController.text}');
+                      // showDialog(
+                      //     context: context,
+                      //     builder: (_) => AlertDialog(
+                      //           content: Text(
+                      //             "You code is ${_myController.text}",
+                      //             style: const TextStyle(fontSize: 30),
+                      //           ),
+                      //         ),);
                     },
                   ),
                   Padding(

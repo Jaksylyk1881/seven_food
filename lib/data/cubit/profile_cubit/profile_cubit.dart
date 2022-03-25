@@ -11,7 +11,6 @@ class ProfileCubit extends Cubit<ProfileState>{
   ProfileCubit() : super(ProfileStateInitial());
   List<Cardd> _list = [];
   String bonus = "";
-  //TODO make profile model
   Future<void> getCards() async{
     try{
       emit(ProfileStateLoading());

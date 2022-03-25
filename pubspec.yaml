@@ -27,6 +27,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  flutter_svg: ^1.0.3
   flutter_credit_card: ^3.0.1
   cloudpayments: ^0.3.0
   pull_to_refresh: ^2.0.0
@@ -83,7 +84,11 @@ flutter:
   uses-material-design: true
   assets:
     - images/
+    - icons/
   fonts:
+    - family: customIcon6
+      fonts:
+        - asset: fonts/Cards.ttf
     - family: customIcon5
       fonts:
         - asset: fonts/DocumentFont.ttf

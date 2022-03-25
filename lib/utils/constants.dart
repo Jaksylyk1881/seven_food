@@ -49,3 +49,8 @@ const TextStyle textStyle5 = TextStyle(
   fontFamily: "ManropeBold",
   fontWeight: FontWeight.w600,
 );
+
+const TextStyle textStyleForAlert1 =TextStyle(
+  fontSize: 18,
+  fontWeight: FontWeight.w600,
+  fontFamily: "Manrope",);

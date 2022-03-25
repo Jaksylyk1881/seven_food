@@ -64,8 +64,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                   );
                 }
                 _pageController.nextPage(
-                  duration: const Duration(milliseconds: 100),
-                  curve: Curves.bounceIn,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut,
                 );
               },
               title: (currentIndex == slides.length - 1) ? "Войти" : "Далее",
@@ -104,7 +104,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   Container buildDot(int index, BuildContext context) {
     return Container(
       height: 10,
-      width: currentIndex == index ? 25 : 10,
+      width: currentIndex == index ? 35 : 10,
       margin: const EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),

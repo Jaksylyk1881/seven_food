@@ -7,7 +7,6 @@ import 'package:seven_food/presentation/widgets/indicator_pin_code.dart';
 import 'package:seven_food/presentation/widgets/num_pad.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//TODO Biometric login
 class LoginByPinCode extends StatefulWidget {
   const LoginByPinCode({Key? key}) : super(key: key);
 

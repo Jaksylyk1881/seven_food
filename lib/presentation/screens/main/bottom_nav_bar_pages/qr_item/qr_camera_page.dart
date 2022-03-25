@@ -86,7 +86,7 @@ class _QrCameraPageState extends State<QrCameraPage> {
                   onQRViewCreated: _onQRViewCreated,
                 ),
                 Positioned(
-                  top: MediaQuery.of(context).size.height / 2 + 125,
+                  top: MediaQuery.of(context).size.height / 2 + 130,
                   child: Container(
                     color: Colors.transparent,
                     child: const Text(

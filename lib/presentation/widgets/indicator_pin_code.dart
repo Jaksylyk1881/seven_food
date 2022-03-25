@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:seven_food/utils/colors.dart';
 
 class Indicator extends StatelessWidget {
   final TextEditingController controller;
@@ -13,7 +14,7 @@ class Indicator extends StatelessWidget {
       Colors.grey
     ];
     return SizedBox(
-      width: 100,
+      width: 150,
       height: 15,
       child: Center(
         child: ListView.builder(
@@ -22,13 +23,13 @@ class Indicator extends StatelessWidget {
             itemCount: 4,
             itemBuilder: (context, index){
               for(int i = 0; i<controller.text.length; i++){
-                circles[i] = Colors.black;
+                circles[i] = grey;
               }
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Container(
-                  height: 15,
-                  width: 15,
+                  height: 12,
+                  width: 12,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: circles[index],

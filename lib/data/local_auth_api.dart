@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/services.dart';
+import 'package:local_auth/auth_strings.dart';
 import 'package:local_auth/local_auth.dart';
 
 class LocalAuthApi {
@@ -30,6 +31,7 @@ class LocalAuthApi {
 
     try {
       return await _auth.authenticate(
+        iOSAuthStrings: const IOSAuthMessages(localizedFallbackTitle: "Face ID"),
         localizedReason: 'Scan Fingerprint to Authenticate',
         stickyAuth: true,
       );

@@ -53,9 +53,6 @@ class _LoginByPinCodeState extends State<LoginByPinCode> {
     super.initState();
     hasBiometrics();
     getPinCode();
-    if(useBiometrics){
-      biometricLogin();
-    }
     _myController.addListener(() {
       setState(() {
         if ((_myController.text == pin) &&
@@ -98,6 +95,9 @@ class _LoginByPinCodeState extends State<LoginByPinCode> {
   }
   @override
   Widget build(BuildContext context) {
+    if(useBiometrics){
+      biometricLogin();
+    }
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(

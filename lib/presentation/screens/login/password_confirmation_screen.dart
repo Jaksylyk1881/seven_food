@@ -3,10 +3,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:flutter_pin_code_fields/flutter_pin_code_fields.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:pinput/pinput.dart';
 import 'package:seven_food/data/cubit/auth/code_verification_cubit/verification_state.dart';
 import 'package:seven_food/data/repository/login_services.dart';
 import 'package:seven_food/presentation/screens/pin_code/pin_code_screen.dart';
@@ -36,7 +34,19 @@ class _PasswordConfirmationState extends State<PasswordConfirmation> {
       isRegistration = sharedPreferences.getBool("isRegistration");
     });
   }
-
+  final defaultPinTheme = PinTheme(
+    width: 56,
+    height: 56,
+    textStyle: const TextStyle(
+      fontSize: 20,
+      color: Colors.black,
+      fontWeight: FontWeight.w600,
+      fontFamily: "ManropeBold",),
+    decoration: BoxDecoration(
+      border: Border.all(color: const Color(0x12041538)),
+      borderRadius: BorderRadius.circular(40),
+    ),
+  );
   late String? _confirmationCode;
   late int _counter = 0;
   Timer? timer;
@@ -148,27 +158,36 @@ class _PasswordConfirmationState extends State<PasswordConfirmation> {
                         title: 'Потверждение',
                         subtitle:
                             'Введите СМС-код, отправленный на номер чтобы $phoneNumber',),
-                    PinCodeFields(
+                    Pinput(
+
                       controller: controller,
-                      fieldBorderStyle: FieldBorderStyle.Square,
-                      responsive: false,
-                      fieldHeight: 56.0,
-                      fieldWidth: 56.0,
-                      borderWidth: 1.0,
-                      borderRadius: BorderRadius.circular(28),
-                      keyboardType: TextInputType.number,
-                      autoHideKeyboard: false,
-                      borderColor: Colors.black38,
-                      textStyle: const TextStyle(
-                        fontSize: 36.0,
-                        fontWeight: FontWeight.w900,
-                      ),
-                      onComplete: (output) {
-                        // Your logic with pin code
+                      defaultPinTheme: defaultPinTheme,
+                      onCompleted: (output){
                         _confirmationCode = output;
                         log(output);
                       },
                     ),
+                    // PinCodeFields(
+                    //   controller: controller,
+                    //   fieldBorderStyle: FieldBorderStyle.Square,
+                    //   responsive: false,
+                    //   fieldHeight: 56.0,
+                    //   fieldWidth: 56.0,
+                    //   borderWidth: 1.0,
+                    //   borderRadius: BorderRadius.circular(28),
+                    //   keyboardType: TextInputType.number,
+                    //   autoHideKeyboard: false,
+                    //   borderColor: Colors.black38,
+                    //   textStyle: const TextStyle(
+                    //     fontSize: 36.0,
+                    //     fontWeight: FontWeight.w900,
+                    //   ),
+                    //   onComplete: (output) {
+                    //     // Your logic with pin code
+                    //     _confirmationCode = output;
+                    //     log(output);
+                    //   },
+                    // ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: isError

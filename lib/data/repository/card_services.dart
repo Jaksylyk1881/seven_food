@@ -46,8 +46,8 @@ class CardServices {
       log("Card successfully added!");
       return;
     } else {
-      log(data.toString());
-      throw Exception(data["message"] as String);
+      // log(data.toString());
+      throw ErrorException(message:data["message"] as String);
     }
   }
 

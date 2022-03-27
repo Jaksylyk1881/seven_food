@@ -4,7 +4,7 @@ import 'package:flutter_credit_card/credit_card_form.dart';
 import 'package:flutter_credit_card/credit_card_model.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:seven_food/data/cubit/profile_cubit/add_card_cubit.dart';
-import 'package:seven_food/data/cubit/profile_cubit/profile_cubit.dart';
+import 'package:seven_food/presentation/screens/main/main_list.dart';
 import 'package:seven_food/presentation/widgets/blue_button.dart';
 import 'package:seven_food/utils/utils.dart';
 
@@ -54,9 +54,8 @@ class _CardAddState extends State<CardAdd> {
               setState(() {
                 context.loaderOverlay.hide();
               });
-              BlocProvider.of<ProfileCubit>(context).getCards();
-              int count = 0;
-              Navigator.of(context).popUntil((_) => count++ >= 2);
+              // BlocProvider.of<ProfileCubit>(context).getCards();
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const MainBottomList(pageId: 4,)));
             }
           },
           builder: (BuildContext context, state) {

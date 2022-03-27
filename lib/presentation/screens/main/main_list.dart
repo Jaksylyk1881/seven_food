@@ -11,10 +11,11 @@ import 'package:seven_food/utils/colors.dart';
 
 class MainBottomList extends StatefulWidget {
   static const String id = '/main_list_screen';
+  final int? pageId;
 
   const MainBottomList({
-    Key? key,
-  }) : super(key: key);
+    Key? key,this.pageId,
+  }) : super(key: key,);
 
   @override
   _MainBottomListState createState() => _MainBottomListState();
@@ -33,6 +34,11 @@ class _MainBottomListState extends State<MainBottomList> {
 
   @override
   void initState() {
+    if(widget.pageId==null){
+      _selectedIndex=0;
+    }else{
+      _selectedIndex=widget.pageId!;
+    }
     super.initState();
   }
 

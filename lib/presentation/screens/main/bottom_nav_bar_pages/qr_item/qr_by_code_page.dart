@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:pinput/pinput.dart';
 import 'package:seven_food/data/cubit/qr_cubit/qr_cubit.dart';
+import 'package:seven_food/presentation/screens/main/bottom_nav_bar_pages/qr_item/qr_camera_page.dart';
 import 'package:seven_food/presentation/screens/main/fridge_pages/fridge_page.dart';
 import 'package:seven_food/utils/colors.dart';
 import 'package:seven_food/utils/utils.dart';
@@ -64,7 +65,7 @@ class _QrByCodePageState extends State<QrByCodePage> {
           ),
           leading: IconButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const QrCameraPage()));
             },
             icon: const Icon(
               Icons.arrow_back_ios_rounded,

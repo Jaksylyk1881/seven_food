@@ -50,6 +50,7 @@ TextField getTextFieldNumber({
     textAlignVertical: TextAlignVertical.center,
     decoration: kTextFieldDecoration.copyWith(
       hintText: "Номер телефона",
+
       prefixIcon: const Padding(
         padding: EdgeInsets.only(top: 14, left: 10),
         child: Text(

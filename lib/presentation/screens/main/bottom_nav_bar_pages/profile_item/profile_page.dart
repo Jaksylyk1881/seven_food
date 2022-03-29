@@ -211,6 +211,15 @@ class _ProfilePageState extends State<ProfilePage>
               height: 1,
             ),
             ListTile(
+              onTap: (){
+                (cards.isEmpty)?
+                 Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CardAdd(),
+                          ),
+                        ):showBottomSheetForCard(cards);
+              },
               contentPadding:
                   const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
               tileColor: contentBackground,
@@ -230,31 +239,22 @@ class _ProfilePageState extends State<ProfilePage>
                 ),
               ),
               trailing: (cards.isEmpty)
-                  ? IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const CardAdd(),
+                  ? const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(Icons.add),
+                  )
+                  : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                          cards[0].maskedPan!,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontFamily: "ManropeBold",
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
                           ),
-                        );
-                      },
-                    )
-                  : TextButton(
-                      onPressed: () {
-                        showBottomSheetForCard(cards);
-                      },
-                      child: Text(
-                        cards[0].maskedPan!,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontFamily: "ManropeBold",
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
                         ),
-                      ),
-                    ),
+                  ),
             ),
             const SizedBox(
               height: 1,
@@ -291,36 +291,7 @@ class _ProfilePageState extends State<ProfilePage>
               height: 1,
             ),
             ListTile(
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(15),
-                  bottomLeft: Radius.circular(15),
-                ),
-              ),
-              tileColor: contentBackground,
-              leading: const Padding(
-                padding: EdgeInsets.only(left: 16, right: 16),
-                child: Icon(
-                  BottomNavIcons.document,
-                  color: Colors.black,
-                ),
-              ),
-              title: const Text(
-                "Документы",
-                style: TextStyle(
-                  fontFamily: "ManropeBold",
-                  fontWeight: FontWeight.w600,
-                  fontSize: 16,
-                ),
-              ),
-              trailing: IconButton(
-                icon: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 15,
-                ),
-                onPressed: () {
+              onTap: () {
                   showModalBottomSheet(
                     context: context,
                     builder: (context) {
@@ -386,11 +357,7 @@ class _ProfilePageState extends State<ProfilePage>
                                         onTap: () async {
                                           const url =
                                               "https://docs.google.com/document/u/0/d/1s0HNlrNoseqZwbj89zvyl4zGihshZwJR0lc0TiosyEE/mobilebasic";
-                                          if (await canLaunch(url)) {
-                                            await launch(url);
-                                          } else {
-                                            // can't launch url
-                                          }
+                                              _launchInBrowser(url);
                                         },
                                         tileColor: contentBackground,
                                         leading: const Icon(
@@ -421,11 +388,7 @@ class _ProfilePageState extends State<ProfilePage>
                                         onTap: () async {
                                           const url =
                                               "https://docs.google.com/document/u/0/d/1IsA5fyCKmAZCs7uggYYXUFGNvfZT9iA8_0Kboe5itdk/mobilebasic";
-                                          if (await canLaunch(url)) {
-                                            await launch(url);
-                                          } else {
-                                            // can't launch url
-                                          }
+                                          _launchInBrowser(url);
                                         },
                                         tileColor: contentBackground,
                                         leading: const Icon(
@@ -451,7 +414,38 @@ class _ProfilePageState extends State<ProfilePage>
                     },
                   );
                 },
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  bottomRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(15),
+                ),
               ),
+              tileColor: contentBackground,
+              leading: const Padding(
+                padding: EdgeInsets.only(left: 16, right: 16),
+                child: Icon(
+                  BottomNavIcons.document,
+                  color: Colors.black,
+                ),
+              ),
+              title: const Text(
+                "Документы",
+                style: TextStyle(
+                  fontFamily: "ManropeBold",
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
+              ),
+              trailing: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 15,
+                  ),
+              ),
+            
             ),
           ],
         ),
@@ -631,5 +625,15 @@ class _ProfilePageState extends State<ProfilePage>
         );
       },
     );
+  }
+  Future<void> _launchInBrowser(String url) async {
+    if (!await launch(
+      url,
+      forceSafariVC: false,
+      forceWebView: true,
+      headers: <String, String>{'my_header_key': 'my_header_value'},
+    )) {
+      throw 'Could not launch $url';
+    }
   }
 }

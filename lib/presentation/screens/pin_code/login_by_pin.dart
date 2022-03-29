@@ -20,6 +20,7 @@ class _LoginByPinCodeState extends State<LoginByPinCode> {
     String name="";
   late String pin;
   late bool useBiometrics = false;
+  bool first = true;
   int a = 1;
   Future<void> getPinCode() async{
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -95,8 +96,9 @@ class _LoginByPinCodeState extends State<LoginByPinCode> {
   }
   @override
   Widget build(BuildContext context) {
-    if(useBiometrics){
+    if(useBiometrics&&first){
       biometricLogin();
+      first = false;
     }
     return Scaffold(
       body: SafeArea(

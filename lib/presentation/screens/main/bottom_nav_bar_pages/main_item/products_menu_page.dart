@@ -120,16 +120,26 @@ class _ProductsMenuPageState extends State<ProductsMenuPage> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(16, 2, 16, 16),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "${state.products[index].name}",
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "ManropeBold",
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "${state.products[index].name}",
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "ManropeBold",
+                                      ),
                                     ),
-                                  ),
+                                    Text(
+                                      "${state.products[index].quantity}",
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        fontFamily: "ManropeBold",
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               )
                             ],

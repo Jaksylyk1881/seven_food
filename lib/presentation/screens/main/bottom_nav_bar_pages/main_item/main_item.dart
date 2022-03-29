@@ -210,6 +210,7 @@ class _MainItemState extends State<MainItem>  with SingleTickerProviderStateMixi
                           child:  Padding(
                             padding: const EdgeInsets.all(1.0),
                             child: ListTileShowcase(
+                              status: "${showcases[index].status}",
                               titleStyle: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,

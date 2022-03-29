@@ -94,10 +94,11 @@ class CardServices {
           if (!success) {
             final int transactionId = data["Model"]["TransactionId"] as int;
             final String paReq = data["Model"]["PaReq"] as String;
+            final result = await Cloudpayments.show3ds(acsUrl: data["Model"]["AcsUrl"] as String, paReq: paReq, transactionId: transactionId.toString(),);
             await threeDSecure(
               paymentId.toString(),
               transactionId.toString(),
-              paReq,
+              result!.paRes!,
             );
           } else {
             log("Card successfully added!");
@@ -105,7 +106,7 @@ class CardServices {
           }
         } catch (e) {
           log("asdfdsafqer");
-          throw ErrorException(message: data["message"] as String);
+          throw ErrorException(message: "Error while adding card");
         }
       } else {
         throw ErrorException(message: "Expire date is not valid!!!");

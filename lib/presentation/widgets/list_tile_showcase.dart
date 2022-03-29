@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:seven_food/utils/colors.dart';
 
 class ListTileShowcase extends StatelessWidget {
+  final String? status;
   final ShapeBorder? shapeBorder;
   final Color? color;
   final String id;
@@ -9,6 +10,7 @@ class ListTileShowcase extends StatelessWidget {
   final TextStyle titleStyle;
   const ListTileShowcase({
     Key? key,
+    this.status,
     this.shapeBorder,
     required this.titleStyle,
     this.color,
@@ -38,12 +40,12 @@ class ListTileShowcase extends StatelessWidget {
               borderRadius: const BorderRadius.all(
                 Radius.circular(24),),
             ),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(
+            child:  Padding(
+              padding: const EdgeInsets.symmetric(
                 horizontal: 8, vertical: 4,),
               child: Text(
-                "24/7",
-                style: TextStyle(
+                status!,
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w500,),
               ),

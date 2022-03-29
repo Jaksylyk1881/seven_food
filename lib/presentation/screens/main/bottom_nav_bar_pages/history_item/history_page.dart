@@ -15,7 +15,7 @@ class HistoryPage extends StatefulWidget {
   @override
   _HistoryPageState createState() => _HistoryPageState();
 }
-
+//TODO Group listview
 class _HistoryPageState extends State<HistoryPage> {
 
   RefreshController controller = RefreshController();
@@ -144,7 +144,7 @@ class _HistoryPageState extends State<HistoryPage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 2),
                           child: Container(
-                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                             decoration: BoxDecoration(
                               color: contentBackground,
                               borderRadius: BorderRadius.circular(12),
@@ -234,17 +234,20 @@ class _HistoryPageState extends State<HistoryPage> {
                                     itemCount: history.details?.length,
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: TextButton(
-                                    onPressed: () {},
-                                    child: const Text(
-                                      "СКАЧАТЬ ЧЕК",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                   Text("Начислено бонусов",style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400,
+                                              color: grey,
+                                            ),),
+                                    Text(history.receivedBonus!,style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                              color: Colors.green,
+                                            ),),
+                                  ],
                                 )
                               ],
                             ),
